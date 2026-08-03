@@ -74,7 +74,7 @@
     welcome: {
       title: L('Antes de empezar, necesitas conocer ICS', 'Before you start, you need to know ICS'),
       lead: L(
-        'Esta experiencia te va a llevar por todo lo que necesitas entender sobre Immigration Case Support: que hacemos, que no hacemos, como trabajamos y por que importa cada parte. Vas a leer, practicar y al final, demostrar que lo tienes claro.',
+        'Esta experiencia te va a llevar por todo lo que necesitas entender sobre Immigration Case Support: qué hacemos, qué no hacemos, cómo trabajamos y por qué importa cada parte. Vas a leer, practicar y al final, demostrar que lo tienes claro.',
         'This experience will walk you through everything you need to understand about Immigration Case Support: what we do, what we don\'t do, how we work, and why each part matters. You\'ll read, practice, and at the end, demonstrate that it\'s clear.'
       ),
       placeholder: L('Tu nombre', 'Your name')
@@ -85,23 +85,23 @@
       label: L('Lectura 1 de 9', 'Reading 1 of 9'),
       title: L('ICS en una frase', 'ICS in one sentence'),
       read: L(
-        'ICS escribe los documentos que necesita un caso de inmigracion basado en trauma, con un ojo clinico que entiende como el trauma desordena la memoria.\n\nDicho de otra manera: ayudamos a que la historia de una persona quede bien escrita en los documentos que su caso de inmigracion necesita.\n\nEso es todo. No somos un despacho de abogados, no somos una clinica. Somos el equipo que convierte una historia fragmentada por el trauma en documentacion clara, estructurada y con la profundidad que USCIS exige.',
+        'ICS escribe los documentos que necesita un caso de inmigración basado en trauma, con un ojo clínico que entiende cómo el trauma desordena la memoria.\n\nDicho de otra manera: ayudamos a que la historia de una persona quede bien escrita en los documentos que su caso de inmigración necesita.\n\nEso es todo. No somos un despacho de abogados, no somos una clínica. Somos el equipo que convierte una historia fragmentada por el trauma en documentación clara, estructurada y con la profundidad que USCIS exige.',
         'ICS writes the documents an immigration case based on trauma needs, with a clinical eye that understands how trauma disrupts memory.\n\nPut another way: we help a person\'s story get properly written into the documents their immigration case needs.\n\nThat\'s it. We\'re not a law firm, we\'re not a clinic. We\'re the team that turns a trauma-fragmented story into clear, structured documentation with the depth USCIS demands.'
       ),
-      practiceLabel: L('Verifica tu comprension', 'Verify your understanding'),
+      practiceLabel: L('Verifica tu comprensión', 'Verify your understanding'),
       quiz: {
         prompt: L(
-          'Completa la frase: ICS escribe los documentos que necesita un caso de inmigracion basado en trauma, con un ojo clinico que entiende como el trauma...',
+          'Completa la frase: ICS escribe los documentos que necesita un caso de inmigración basado en trauma, con un ojo clínico que entiende cómo el trauma...',
           'Complete the sentence: ICS writes the documents an immigration case based on trauma needs, with a clinical eye that understands how trauma...'
         ),
         options: [
           { text: L('...causa dolor emocional', '...causes emotional pain'), correct: false },
           { text: L('...desordena la memoria', '...disrupts memory'), correct: true },
-          { text: L('...impide la comunicacion', '...prevents communication'), correct: false },
+          { text: L('...impide la comunicación', '...prevents communication'), correct: false },
           { text: L('...genera desconfianza', '...generates distrust'), correct: false }
         ],
-        correctFeedback: L('El trauma desordena la memoria. Esa es la razon de ser de ICS: documentar con un enfoque clinico que entiende esa fragmentacion.', 'Trauma disrupts memory. That\'s the reason ICS exists: documenting with a clinical approach that understands that fragmentation.'),
-        incorrectFeedback: L('No exactamente. El punto clave es que el trauma desordena la memoria, y por eso hace falta un enfoque clinico para documentar bien.', 'Not exactly. The key point is that trauma disrupts memory, and that\'s why a clinical approach is needed for proper documentation.')
+        correctFeedback: L('El trauma desordena la memoria. Esa es la razón de ser de ICS: documentar con un enfoque clínico que entiende esa fragmentación.', 'Trauma disrupts memory. That\'s the reason ICS exists: documenting with a clinical approach that understands that fragmentation.'),
+        incorrectFeedback: L('No exactamente. El punto clave es que el trauma desordena la memoria, y por eso hace falta un enfoque clínico para documentar bien.', 'Not exactly. The key point is that trauma disrupts memory, and that\'s why a clinical approach is needed for proper documentation.')
       }
     },
 
@@ -110,25 +110,25 @@
       label: L('Lectura 2 de 9', 'Reading 2 of 9'),
       title: L('El problema que resuelve', 'The problem ICS solves'),
       read: L(
-        'USCIS revisa hoy con mas dureza que nunca. Una documentacion mediocre ya no es solo debil, es motivo activo de rechazo. Un buen documento necesita una cronologia solida, los hechos relevantes bien identificados y evidencia que respalde cada uno.\n\nCuando el caso involucra trauma hay una capa extra. El trauma fragmenta el relato, desordena la memoria, esconde los hechos importantes. La persona no esta mintiendo ni siendo inconsistente: su cerebro proceso la experiencia de una forma que hace dificil contarla en orden.\n\nPor eso hace falta un ojo clinico. Alguien que vea a traves de esa fragmentacion, identifique lo relevante, y reconstruya la historia con la profundidad y estructura que el caso necesita. Eso es exactamente lo que aplica ICS.',
+        'USCIS revisa hoy con más dureza que nunca. Una documentación mediocre ya no es solo débil, es motivo activo de rechazo. Un buen documento necesita una cronología sólida, los hechos relevantes bien identificados y evidencia que respalde cada uno.\n\nCuando el caso involucra trauma hay una capa extra. El trauma fragmenta el relato, desordena la memoria, esconde los hechos importantes. La persona no está mintiendo ni siendo inconsistente: su cerebro proceso la experiencia de una forma que hace difícil contarla en orden.\n\nPor eso hace falta un ojo clínico. Alguien que vea a traves de esa fragmentación, identifique lo relevante, y reconstruya la historia con la profundidad y estructura que el caso necesita. Eso es exactamente lo que aplica ICS.',
         'USCIS reviews more strictly today than ever. Mediocre documentation is no longer just weak — it\'s an active reason for denial. A strong document needs a solid chronology, well-identified relevant facts, and evidence backing each one.\n\nWhen trauma is involved there\'s an extra layer. Trauma fragments the narrative, disrupts memory, and hides important facts. The person isn\'t lying or being inconsistent: their brain processed the experience in a way that makes it hard to tell in order.\n\nThat\'s why a clinical eye is needed. Someone who can see through that fragmentation, identify what\'s relevant, and reconstruct the story with the depth and structure the case needs. That\'s exactly what ICS does.'
       ),
       practiceLabel: L('Verdadero o falso', 'True or false'),
       quiz: [
         {
-          text: L('Una documentacion mediocre hoy puede ser motivo activo de rechazo por USCIS.', 'Mediocre documentation today can be an active reason for denial by USCIS.'),
+          text: L('Una documentación mediocre hoy puede ser motivo activo de rechazo por USCIS.', 'Mediocre documentation today can be an active reason for denial by USCIS.'),
           answer: true,
-          feedback: L('USCIS revisa con mas dureza que nunca. Lo mediocre ya no pasa.', 'USCIS reviews more strictly than ever. Mediocre no longer passes.')
+          feedback: L('USCIS revisa con más dureza que nunca. Lo mediocre ya no pasa.', 'USCIS reviews more strictly than ever. Mediocre no longer passes.')
         },
         {
-          text: L('El trauma hace que la persona recuerde los hechos con mas claridad.', 'Trauma causes the person to remember facts more clearly.'),
+          text: L('El trauma hace que la persona recuerde los hechos con más claridad.', 'Trauma causes the person to remember facts more clearly.'),
           answer: false,
           feedback: L('Al reves. El trauma fragmenta el relato y desordena la memoria.', 'The opposite. Trauma fragments the narrative and disrupts memory.')
         },
         {
           text: L('Una narrativa fragmentada indica que la historia es inconsistente.', 'A fragmented narrative indicates the story is inconsistent.'),
           answer: false,
-          feedback: L('No. Una narrativa fragmentada es un efecto del trauma, no una senal de inconsistencia.', 'No. A fragmented narrative is an effect of trauma, not a sign of inconsistency.')
+          feedback: L('No. Una narrativa fragmentada es un efecto del trauma, no una señal de inconsistencia.', 'No. A fragmented narrative is an effect of trauma, not a sign of inconsistency.')
         }
       ]
     },
@@ -136,21 +136,21 @@
     // STEP 3
     s3: {
       label: L('Lectura 3 de 9', 'Reading 3 of 9'),
-      title: L('Que hace ICS exactamente', 'What ICS does exactly'),
+      title: L('Qué hace ICS exactamente', 'What ICS does exactly'),
       read: L(
-        'ICS produce tres tipos de documento:\n\nDeclaracion jurada (Affidavit) — formal, cronologica, lista para el caso.\n\nPersonal Statement — el testimonio en la voz de la persona, menos formal que un affidavit pero igual de estructurado.\n\nCartas de caracter (Character Letters) — cartas de apoyo de la familia, la pareja, los empleadores y la comunidad, consistentes entre si.\n\nY ofrece tres servicios:\n\nSesion de Narrativa — se trabaja la historia del cliente a profundidad. Es el punto de partida de casi todo caso.\n\nAuto-preparacion (Case Self-Preparation) — acompanamiento paso a paso para quien presenta su propio caso, con guia de alcance limitado de un abogado de inmigracion que trabaja como contratista independiente.\n\nEvaluacion psicologica — evaluacion clinica formal hecha por un profesional de salud mental bilingue con licencia.',
+        'ICS produce tres tipos de documento:\n\nDeclaración jurada (Affidavit) — formal, cronológica, lista para el caso.\n\nPersonal Statement — el testimonio en la voz de la persona, menos formal que un affidavit pero igual de estructurado.\n\nCartas de carácter (Character Letters) — cartas de apoyo de la familia, la pareja, los empleadores y la comunidad, consistentes entre sí.\n\nY ofrece tres servicios:\n\nSesión de Narrativa — se trabaja la historia del cliente a profundidad. Es el punto de partida de casi todo caso.\n\nAuto-preparación (Case Self-Preparation) — acompañamiento paso a paso para quien presenta su propio caso, con guía de alcance limitado de un abogado de inmigración que trabaja como contratista independiente.\n\nEvaluación psicológica — evaluación clínica formal hecha por un profesional de salud mental bilingüe con licencia.',
         'ICS produces three types of documents:\n\nSworn Declaration (Affidavit) — formal, chronological, case-ready.\n\nPersonal Statement — testimony in the person\'s voice, less formal than an affidavit but equally structured.\n\nCharacter Letters — support letters from family, partner, employers, and community, consistent with each other.\n\nAnd offers three services:\n\nNarrative Session — the client\'s story is explored in depth. It\'s the starting point for almost every case.\n\nCase Self-Preparation — step-by-step guidance for those filing their own case, with limited-scope guidance from an immigration attorney working as an independent contractor.\n\nPsychological Evaluation — formal clinical evaluation by a licensed bilingual mental health professional.'
       ),
       practiceLabel: L('Clasifica cada elemento', 'Classify each item'),
       quiz: {
-        prompt: L('Arrastra cada elemento a su categoria, o toca para seleccionar y luego toca la zona destino.', 'Drag each item to its category, or tap to select then tap the target zone.'),
+        prompt: L('Arrastra cada elemento a su categoría, o toca para seleccionar y luego toca la zona destino.', 'Drag each item to its category, or tap to select then tap the target zone.'),
         items: [
           { text: L('Affidavit', 'Affidavit'), category: 'doc' },
-          { text: L('Sesion de Narrativa', 'Narrative Session'), category: 'service' },
+          { text: L('Sesión de Narrativa', 'Narrative Session'), category: 'service' },
           { text: L('Personal Statement', 'Personal Statement'), category: 'doc' },
-          { text: L('Auto-preparacion', 'Case Self-Preparation'), category: 'service' },
-          { text: L('Cartas de caracter', 'Character Letters'), category: 'doc' },
-          { text: L('Evaluacion psicologica', 'Psychological Evaluation'), category: 'service' }
+          { text: L('Auto-preparación', 'Case Self-Preparation'), category: 'service' },
+          { text: L('Cartas de carácter', 'Character Letters'), category: 'doc' },
+          { text: L('Evaluación psicológica', 'Psychological Evaluation'), category: 'service' }
         ],
         zones: { doc: L('Documentos', 'Documents'), service: L('Servicios', 'Services') }
       }
@@ -159,9 +159,9 @@
     // STEP 4
     s4: {
       label: L('Lectura 4 de 9', 'Reading 4 of 9'),
-      title: L('Que NO hace ICS', 'What ICS does NOT do'),
+      title: L('Qué NO hace ICS', 'What ICS does NOT do'),
       read: L(
-        'Esta es la regla del scope y es innegociable. Cada vez que describes ICS tienes que decir tambien lo que no hace:\n\nNo llena formularios oficiales de inmigracion.\nNo presenta casos ante USCIS.\nNo da asesoria legal.\nNo es un despacho de abogados.\n\nEsto protege al cliente de expectativas mal calibradas y a ICS regulatoriamente. Cuando se omite, aparecen los malentendidos mas dificiles de resolver.\n\nHay tres limites adicionales en la comunicacion que nunca se cruzan: no comunicar desde el miedo, no prometer resultados migratorios, y no exagerar el alcance de lo que hacemos.',
+        'Esta es la regla del scope y es innegociable. Cada vez que describes ICS tienes que decir también lo que no hace:\n\nNo llena formularios oficiales de inmigración.\nNo presenta casos ante USCIS.\nNo da asesoría legal.\nNo es un despacho de abogados.\n\nEsto protege al cliente de expectativas mal calibradas y a ICS regulatoriamente. Cuando se omite, aparecen los malentendidos más difíciles de resolver.\n\nHay tres límites adicionales en la comunicación que nunca se cruzan: no comunicar desde el miedo, no prometer resultados migratorios, y no exagerar el alcance de lo que hacemos.',
         'This is the scope rule and it\'s non-negotiable. Every time you describe ICS you must also say what it doesn\'t do:\n\nDoes not fill out official immigration forms.\nDoes not file cases before USCIS.\nDoes not provide legal advice.\nIs not a law firm.\n\nThis protects the client from miscalibrated expectations and ICS from regulatory issues. When it\'s omitted, the hardest misunderstandings to resolve appear.\n\nThere are three additional communication limits that are never crossed: don\'t communicate from fear, don\'t promise immigration outcomes, and don\'t exaggerate the scope of what we do.'
       ),
       practiceLabel: L('Escenarios de juicio', 'Judgment scenarios'),
@@ -173,32 +173,32 @@
             { text: L('Le explico que ICS no llena formularios oficiales y lo refiero a su abogado.', 'I explain that ICS doesn\'t fill out official forms and refer them to their attorney.'), correct: true },
             { text: L('Lo lleno pero sin firmarlo.', 'I fill it out but don\'t sign it.'), correct: false }
           ],
-          feedback: L('ICS nunca llena formularios oficiales de inmigracion, sin excepciones.', 'ICS never fills out official immigration forms, no exceptions.')
+          feedback: L('ICS nunca llena formularios oficiales de inmigración, sin excepciones.', 'ICS never fills out official immigration forms, no exceptions.')
         },
         {
           situation: L('Un familiar del cliente pregunta: "Creen que le van a aprobar el caso?"', 'A client\'s family member asks: "Do you think their case will be approved?"'),
           options: [
-            { text: L('Le digo que si para darle tranquilidad.', 'I say yes to reassure them.'), correct: false },
+            { text: L('Le digo que sí para darle tranquilidad.', 'I say yes to reassure them.'), correct: false },
             { text: L('Le explico que ICS no puede prometer ni predecir resultados migratorios.', 'I explain that ICS cannot promise or predict immigration outcomes.'), correct: true },
-            { text: L('Le digo que probablemente si, pero que no es seguro.', 'I say probably yes, but it\'s not certain.'), correct: false }
+            { text: L('Le digo que probablemente sí, pero que no es seguro.', 'I say probably yes, but it\'s not certain.'), correct: false }
           ],
           feedback: L('ICS nunca promete resultados migratorios.', 'ICS never promises immigration outcomes.')
         },
         {
           situation: L('Un abogado te pide que presentes directamente los documentos ante USCIS.', 'An attorney asks you to file documents directly with USCIS.'),
           options: [
-            { text: L('Lo hago como cortesia profesional.', 'I do it as a professional courtesy.'), correct: false },
-            { text: L('Le explico que ICS prepara la documentacion pero no presenta casos.', 'I explain that ICS prepares documentation but doesn\'t file cases.'), correct: true }
+            { text: L('Lo hago como cortesía profesional.', 'I do it as a professional courtesy.'), correct: false },
+            { text: L('Le explico que ICS prepara la documentación pero no presenta casos.', 'I explain that ICS prepares documentation but doesn\'t file cases.'), correct: true }
           ],
-          feedback: L('ICS prepara documentacion. La presentacion ante USCIS la hace el abogado.', 'ICS prepares documentation. Filing with USCIS is done by the attorney.')
+          feedback: L('ICS prepara documentación. La presentación ante USCIS la hace el abogado.', 'ICS prepares documentation. Filing with USCIS is done by the attorney.')
         },
         {
-          situation: L('Alguien pregunta si ICS puede aconsejarle sobre que tipo de visa solicitar.', 'Someone asks if ICS can advise them on what type of visa to apply for.'),
+          situation: L('Alguien pregunta si ICS puede aconsejarle sobre qué tipo de visa solicitar.', 'Someone asks if ICS can advise them on what type of visa to apply for.'),
           options: [
-            { text: L('Le doy mi opinion basada en experiencia.', 'I give my opinion based on experience.'), correct: false },
-            { text: L('Le explico que ICS no da asesoria legal y lo refiero a un abogado de inmigracion.', 'I explain that ICS doesn\'t provide legal advice and refer them to an immigration attorney.'), correct: true }
+            { text: L('Le doy mi opinión basada en experiencia.', 'I give my opinión based on experience.'), correct: false },
+            { text: L('Le explico que ICS no da asesoría legal y lo refiero a un abogado de inmigración.', 'I explain that ICS doesn\'t provide legal advice and refer them to an immigration attorney.'), correct: true }
           ],
-          feedback: L('Dar orientacion sobre tipos de visa es asesoria legal. ICS no lo hace.', 'Guidance on visa types is legal advice. ICS doesn\'t do that.')
+          feedback: L('Dar orientación sobre tipos de visa es asesoría legal. ICS no lo hace.', 'Guidance on visa types is legal advice. ICS doesn\'t do that.')
         }
       ]
     },
@@ -206,23 +206,23 @@
     // STEP 5
     s5: {
       label: L('Lectura 5 de 9', 'Reading 5 of 9'),
-      title: L('Que hace diferente a ICS', 'What makes ICS different'),
+      title: L('Qué hace diferente a ICS', 'What makes ICS different'),
       read: L(
-        'ICS combina formacion certificada en trauma con experiencia paralegal migratoria. Los proveedores clinicos no conocen el proceso legal, los legales no tienen formacion en trauma. Son pocos los que juntan las dos cosas.\n\nEl enfoque trauma-informado no es un servicio aparte, es como se trabaja siempre: reconstruir una cronologia desordenada, separar lo importante del contexto secundario, cuidar el ritmo emocional del cliente. Esta en cada documento.\n\nSe trabaja en el idioma del cliente, sin traducciones intermedias. Los detalles importantes salen mejor cuando la persona cuenta su historia en su propio idioma.\n\nEl resultado es documentacion que refleja la profundidad de lo que la persona vivio, con la estructura que un oficial o un juez necesitan para tomar el caso en serio.',
+        'ICS combina formación certificada en trauma con experiencia paralegal migratoria. Los proveedores clínicos no conocen el proceso legal, los legales no tienen formación en trauma. Son pocos los que juntan las dos cosas.\n\nEl enfoque trauma-informado no es un servicio aparte, es cómo se trabaja siempre: reconstruir una cronología desordenada, separar lo importante del contexto secundario, cuidar el ritmo emocional del cliente. Está en cada documento.\n\nSe trabaja en el idioma del cliente, sin traducciones intermedias. Los detalles importantes salen mejor cuando la persona cuenta su historia en su propio idioma.\n\nEl resultado es documentación que refleja la profundidad de lo que la persona vivió, con la estructura que un oficial o un juez necesitan para tomar el caso en serio.',
         'ICS combines certified trauma training with immigration paralegal experience. Clinical providers don\'t know the legal process, legal professionals don\'t have trauma training. Few combine both.\n\nThe trauma-informed approach isn\'t a separate service — it\'s how work is always done: reconstructing a disordered chronology, separating the important from secondary context, managing the client\'s emotional pace. It\'s in every document.\n\nWork is done in the client\'s language, without intermediate translations. Important details come through better when the person tells their story in their own language.\n\nThe result is documentation that reflects the depth of what the person lived, with the structure an officer or judge needs to take the case seriously.'
       ),
       practiceLabel: L('Selecciona las que apliquen', 'Select all that apply'),
       quiz: {
         prompt: L('Marca las afirmaciones que son verdaderas sobre ICS:', 'Select the statements that are true about ICS:'),
         options: [
-          { text: L('Combina formacion en trauma con experiencia paralegal migratoria.', 'Combines trauma training with immigration paralegal experience.'), correct: true },
+          { text: L('Combina formación en trauma con experiencia paralegal migratoria.', 'Combines trauma training with immigration paralegal experience.'), correct: true },
           { text: L('El enfoque trauma-informado es un servicio adicional con costo extra.', 'The trauma-informed approach is an additional service with extra cost.'), correct: false },
           { text: L('Se trabaja en el idioma del cliente, sin traducciones intermedias.', 'Work is done in the client\'s language, without intermediate translations.'), correct: true },
           { text: L('ICS compite directamente con despachos de abogados.', 'ICS competes directly with law firms.'), correct: false },
-          { text: L('La documentacion refleja la profundidad de la experiencia vivida.', 'Documentation reflects the depth of the lived experience.'), correct: true },
-          { text: L('ICS ofrece representacion legal cuando el cliente no tiene abogado.', 'ICS offers legal representation when the client has no attorney.'), correct: false },
-          { text: L('El enfoque trauma-informado esta presente en cada documento, no es opcional.', 'The trauma-informed approach is present in every document, it\'s not optional.'), correct: true },
-          { text: L('ICS trabaja unicamente en ingles.', 'ICS works only in English.'), correct: false }
+          { text: L('La documentación refleja la profundidad de la experiencia vivida.', 'Documentation reflects the depth of the lived experience.'), correct: true },
+          { text: L('ICS ofrece representación legal cuando el cliente no tiene abogado.', 'ICS offers legal representation when the client has no attorney.'), correct: false },
+          { text: L('El enfoque trauma-informado está presente en cada documento, no es opcional.', 'The trauma-informed approach is present in every document, it\'s not optional.'), correct: true },
+          { text: L('ICS trabaja únicamente en ingles.', 'ICS works only in English.'), correct: false }
         ]
       }
     },
@@ -230,52 +230,52 @@
     // STEP 6
     s6: {
       label: L('Lectura 6 de 9', 'Reading 6 of 9'),
-      title: L('Donde se ubica ICS', 'Where ICS sits'),
+      title: L('Dónde se ubica ICS', 'Where ICS sits'),
       read: L(
-        'ICS no compite con despachos de abogados ni con clinicas psicologicas. Vive en el espacio entre lo clinico y lo legal: la preparacion documental de casos con trauma.\n\nEs una categoria nueva. Los proveedores clinicos hacen evaluaciones pero no conocen la estructura que un caso de inmigracion necesita. Los abogados conocen el proceso legal pero no tienen formacion para trabajar con narrativas fracturadas por trauma. ICS ocupa ese espacio intermedio.\n\nICS quiere ser el nombre con el que se identifique esta categoria. No somos ni un lado ni el otro. Somos el puente documental entre ambos.',
+        'ICS no compite con despachos de abogados ni con clínicas psicológicas. Vive en el espacio entre lo clínico y lo legal: la preparación documental de casos con trauma.\n\nEs una categoría nueva. Los proveedores clínicos hacen evaluaciones pero no conocen la estructura que un caso de inmigración necesita. Los abogados conocen el proceso legal pero no tienen formación para trabajar con narrativas fracturadas por trauma. ICS ocupa ese espacio intermedio.\n\nICS quiere ser el nombre con el que se identifique esta categoría. No somos ni un lado ni el otro. Somos el puente documental entre ambos.',
         'ICS doesn\'t compete with law firms or psychological clinics. It lives in the space between clinical and legal: trauma case document preparation.\n\nIt\'s a new category. Clinical providers do evaluations but don\'t know the structure an immigration case needs. Attorneys know the legal process but don\'t have training to work with trauma-fractured narratives. ICS occupies that middle space.\n\nICS wants to be the name this category is identified with. We\'re not one side or the other. We\'re the documentary bridge between both.'
       ),
-      practiceLabel: L('Ubicacion visual', 'Visual placement'),
+      practiceLabel: L('Ubicación visual', 'Visual placement'),
       quiz: {
         prompt: L('Haz clic en la zona donde se ubica ICS.', 'Click the zone where ICS sits.'),
         zones: [
-          { id: 'clinical', label: L('Clinico', 'Clinical'), sub: L('Evaluaciones, diagnosticos', 'Evaluations, diagnoses'), correct: false },
-          { id: 'middle', label: L('Entre clinico y legal', 'Between clinical and legal'), sub: L('Preparacion documental', 'Document preparation'), correct: true },
-          { id: 'legal', label: L('Legal', 'Legal'), sub: L('Representacion, formularios', 'Representation, forms'), correct: false }
+          { id: 'clinical', label: L('Clínico', 'Clinical'), sub: L('Evaluaciones, diagnósticos', 'Evaluations, diagnoses'), correct: false },
+          { id: 'middle', label: L('Entre clínico y legal', 'Between clinical and legal'), sub: L('Preparación documental', 'Document preparation'), correct: true },
+          { id: 'legal', label: L('Legal', 'Legal'), sub: L('Representación, formularios', 'Representation, forms'), correct: false }
         ],
-        correctFeedback: L('ICS vive entre lo clinico y lo legal: preparacion documental de casos con trauma.', 'ICS lives between clinical and legal: trauma case document preparation.'),
-        incorrectFeedback: L('ICS no es ni clinico ni legal. Vive en el espacio entre ambos.', 'ICS is neither clinical nor legal. It lives in the space between both.')
+        correctFeedback: L('ICS vive entre lo clínico y lo legal: preparación documental de casos con trauma.', 'ICS lives between clinical and legal: trauma case document preparation.'),
+        incorrectFeedback: L('ICS no es ni clínico ni legal. Vive en el espacio entre ambos.', 'ICS is neither clinical nor legal. It lives in the space between both.')
       }
     },
 
     // STEP 7
     s7: {
       label: L('Lectura 7 de 9', 'Reading 7 of 9'),
-      title: L('Como trabaja ICS por dentro', 'How ICS works internally'),
+      title: L('Cómo trabaja ICS por dentro', 'How ICS works internally'),
       readPrinciples: [
-        L('Primero comprender, despues documentar. Nunca se empieza escribiendo.', 'First understand, then document. Never start by writing.'),
-        L('El trauma cambia como se recuerda. Una narrativa fragmentada no significa una historia inconsistente.', 'Trauma changes how things are remembered. A fragmented narrative doesn\'t mean an inconsistent story.'),
-        L('El contexto pesa tanto como los hechos. Un dato aislado puede sostener o debilitar segun como se enmarque.', 'Context weighs as much as facts. An isolated fact can strengthen or weaken depending on how it\'s framed.'),
-        L('Documentar no es transcribir. Es organizar, conectar y estructurar la informacion para que se entienda.', 'Documenting is not transcribing. It\'s organizing, connecting, and structuring information so it makes sense.'),
-        L('La estrategia legal necesita una base documental solida. ICS fortalece esa base, no compite con el abogado.', 'Legal strategy needs a solid documentary foundation. ICS strengthens that foundation — it doesn\'t compete with the attorney.')
+        L('Primero comprender, después documentar. Nunca se empieza escribiendo.', 'First understand, then document. Never start by writing.'),
+        L('El trauma cambia cómo se recuerda. Una narrativa fragmentada no significa una historia inconsistente.', 'Trauma changes how things are remembered. A fragmented narrative doesn\'t mean an inconsistent story.'),
+        L('El contexto pesa tanto como los hechos. Un dato aislado puede sostener o debilitar según cómo se enmarque.', 'Context weighs as much as facts. An isolated fact can strengthen or weaken depending on how it\'s framed.'),
+        L('Documentar no es transcribir. Es organizar, conectar y estructurar la información para que se entienda.', 'Documenting is not transcribing. It\'s organizing, connecting, and structuring information so it makes sense.'),
+        L('La estrategia legal necesita una base documental sólida. ICS fortalece esa base, no compite con el abogado.', 'Legal strategy needs a solid documentary foundation. ICS strengthens that foundation — it doesn\'t compete with the attorney.')
       ],
       readFlow: [
         L('Primer contacto', 'First contact'),
-        L('Intake rapido (se confirma el servicio correcto)', 'Quick intake (confirm the right service)'),
-        L('Sesion de Narrativa o recepcion de materiales', 'Narrative Session or materials reception'),
-        L('Redaccion y estructura', 'Writing and structuring'),
-        L('Revision con el cliente', 'Review with client'),
+        L('Intake rápido (se confirma el servicio correcto)', 'Quick intake (confirm the right service)'),
+        L('Sesión de Narrativa o recepción de materiales', 'Narrative Session or materials reception'),
+        L('Redacción y estructura', 'Writing and structuring'),
+        L('Revisión con el cliente', 'Review with client'),
         L('Entrega lista para presentar', 'Delivery ready for filing')
       ],
       readRoles: [
-        L('Clinicos con licencia: conducen la sesion y hacen la lectura clinica del trauma.', 'Licensed clinicians: conduct the session and perform the clinical reading of trauma.'),
-        L('Especialistas de narrativa y paralegal: reconstruyen la cronologia y redactan.', 'Narrative and paralegal specialists: reconstruct the chronology and write.'),
-        L('Abogado externo (solo auto-preparacion): guia de alcance limitado.', 'External attorney (self-preparation only): limited-scope guidance.'),
+        L('Clínicos con licencia: conducen la sesión y hacen la lectura clínica del trauma.', 'Licensed clinicians: conduct the session and perform the clinical reading of trauma.'),
+        L('Especialistas de narrativa y paralegal: reconstruyen la cronología y redactan.', 'Narrative and paralegal specialists: reconstruct the chronology and write.'),
+        L('Abogado externo (solo auto-preparación): guía de alcance limitado.', 'External attorney (self-preparation only): limited-scope guidance.'),
         L('El abogado del cliente, cuando existe, es siempre externo a ICS.', 'The client\'s attorney, when they have one, is always external to ICS.')
       ],
       practiceLabel: L('Ordena el flujo', 'Order the flow'),
       quiz: {
-        prompt: L('Ordena los pasos del flujo tipico de un caso. Arrastra o toca dos elementos para intercambiarlos.', 'Order the steps of the typical case flow. Drag or tap two items to swap them.')
+        prompt: L('Ordena los pasos del flujo típico de un caso. Arrastra o toca dos elementos para intercambiarlos.', 'Order the steps of the typical case flow. Drag or tap two items to swap them.')
       }
     },
 
@@ -284,22 +284,22 @@
       label: L('Lectura 8 de 9', 'Reading 8 of 9'),
       title: L('La oferta B2B: Clinical Narrative Workup', 'The B2B offer: Clinical Narrative Workup'),
       read: L(
-        'ICS le ofrece a los abogados de inmigracion un workup de narrativa clinica sin costo sobre uno de sus casos activos de trauma.\n\nIncluye la sesion completa, el paquete clinico (mapa narrativo, lectura de trauma y affidavit redactado) y una llamada de revision.\n\nEs una muestra del proceso completo para que el abogado lo vea antes de decidir. Todo lo que se produce queda con el abogado, continue con nosotros o no. No hay condiciones, no hay letra pequena.',
+        'ICS le ofrece a los abogados de inmigración un workup de narrativa clínica sin costo sobre uno de sus casos activos de trauma.\n\nIncluye la sesión completa, el paquete clínico (mapa narrativo, lectura de trauma y affidavit redactado) y una llamada de revisión.\n\nEs una muestra del proceso completo para que el abogado lo vea antes de decidir. Todo lo que se produce queda con el abogado, continue con nosotros o no. No hay condiciones, no hay letra pequeña.',
         'ICS offers immigration attorneys a clinical narrative workup at no cost on one of their active trauma cases.\n\nIt includes the full session, the clinical package (narrative map, trauma reading, and drafted affidavit), and a review call.\n\nIt\'s a sample of the full process for the attorney to see before deciding. Everything produced stays with the attorney, whether they continue with us or not. No conditions, no fine print.'
       ),
-      practiceLabel: L('Verifica tu comprension', 'Verify your understanding'),
+      practiceLabel: L('Verifica tu comprensión', 'Verify your understanding'),
       quiz: [
         {
-          prompt: L('Que incluye el Clinical Narrative Workup?', 'What does the Clinical Narrative Workup include?'),
+          prompt: L('Qué incluye el Clinical Narrative Workup?', 'What does the Clinical Narrative Workup include?'),
           options: [
-            { text: L('Solo la sesion de narrativa.', 'Only the narrative session.'), correct: false },
-            { text: L('Sesion completa, paquete clinico y llamada de revision.', 'Full session, clinical package, and review call.'), correct: true },
-            { text: L('Un diagnostico clinico del cliente.', 'A clinical diagnosis of the client.'), correct: false }
+            { text: L('Solo la sesión de narrativa.', 'Only the narrative session.'), correct: false },
+            { text: L('Sesión completa, paquete clínico y llamada de revisión.', 'Full session, clinical package, and review call.'), correct: true },
+            { text: L('Un diagnóstico clínico del cliente.', 'A clinical diagnosis of the client.'), correct: false }
           ],
-          feedback: L('Incluye la sesion, el paquete clinico completo y una llamada de revision.', 'It includes the session, the full clinical package, and a review call.')
+          feedback: L('Incluye la sesión, el paquete clínico completo y una llamada de revisión.', 'It includes the session, the full clinical package, and a review call.')
         },
         {
-          prompt: L('Si el abogado decide no continuar con ICS, que pasa con lo producido?', 'If the attorney decides not to continue with ICS, what happens to what was produced?'),
+          prompt: L('Si el abogado decide no continuar con ICS, qué pasa con lo producido?', 'If the attorney decides not to continue with ICS, what happens to what was produced?'),
           options: [
             { text: L('Se elimina por confidencialidad.', 'It\'s deleted for confidentiality.'), correct: false },
             { text: L('Todo queda con el abogado.', 'Everything stays with the attorney.'), correct: true },
@@ -313,9 +313,9 @@
     // STEP 9
     s9: {
       label: L('Lectura 9 de 9', 'Reading 9 of 9'),
-      title: L('Como suena ICS', 'How ICS sounds'),
+      title: L('Cómo suena ICS', 'How ICS sounds'),
       read: L(
-        'El tono sigue siempre la misma secuencia: educar, explicar, argumentar, y solo entonces presentar. Nunca se abre vendiendo.\n\nLa voz es calida sin ser familiar, precisa sin ser fria, segura sin ser arrogante. Ni alarmista ni condescendiente.\n\nTres limites que no se cruzan:\n\nNo comunicar desde el miedo.\nNo prometer resultados migratorios.\nNo exagerar el alcance de lo que hacemos.',
+        'El tono sigue siempre la misma secuencia: educar, explicar, argumentar, y solo entonces presentar. Nunca se abre vendiendo.\n\nLa voz es cálida sin ser familiar, precisa sin ser fría, segura sin ser arrogante. Ni alarmista ni condescendiente.\n\nTres límites que no se cruzan:\n\nNo comunicar desde el miedo.\nNo prometer resultados migratorios.\nNo exagerar el alcance de lo que hacemos.',
         'The tone always follows the same sequence: educate, explain, argue, and only then present. Never open by selling.\n\nThe voice is warm without being casual, precise without being cold, confident without being arrogant. Neither alarmist nor condescending.\n\nThree limits that are never crossed:\n\nDon\'t communicate from fear.\nDon\'t promise immigration outcomes.\nDon\'t exaggerate the scope of what we do.'
       ),
       practiceLabel: L('Reconoce el tono', 'Recognize the tone'),
@@ -323,43 +323,43 @@
         prompt: L('Lee cada mensaje y decide si suena a ICS o no.', 'Read each message and decide if it sounds like ICS or not.'),
         samples: [
           {
-            text: L('"Entendemos que contar tu historia puede ser dificil. Nuestro trabajo es asegurarnos de que quede escrita con la claridad y profundidad que tu caso necesita."', '"We understand that telling your story can be difficult. Our job is to make sure it\'s written with the clarity and depth your case needs."'),
+            text: L('"Entendemos que contar tu historia puede ser difícil. Nuestro trabajo es asegurarnos de que quede escrita con la claridad y profundidad que tu caso necesita."', '"We understand that telling your story can be difficult. Our job is to make sure it\'s written with the clarity and depth your case needs."'),
             isICS: true,
-            feedback: L('Calido, preciso, no promete resultados.', 'Warm, precise, doesn\'t promise outcomes.')
+            feedback: L('Cálido, preciso, no promete resultados.', 'Warm, precise, doesn\'t promise outcomes.')
           },
           {
-            text: L('"Si no actuas AHORA podrias perder tu caso para siempre. Contactanos antes de que sea demasiado tarde."', '"If you don\'t act NOW you could lose your case forever. Contact us before it\'s too late."'),
+            text: L('"Si no actúas AHORA podrías perder tu caso para siempre. Contáctanos antes de que sea demasiado tarde."', '"If you don\'t act NOW you could lose your case forever. Contact us before it\'s too late."'),
             isICS: false,
-            feedback: L('Comunica desde el miedo. Alarmista. ICS nunca suena asi.', 'Communicates from fear. Alarmist. ICS never sounds like this.')
+            feedback: L('Comunica desde el miedo. Alarmista. ICS nunca suena así.', 'Communicates from fear. Alarmist. ICS never sounds like this.')
           },
           {
-            text: L('"Garantizamos que con nuestro servicio tu caso sera aprobado. Tenemos un 99% de exito."', '"We guarantee that with our service your case will be approved. We have a 99% success rate."'),
+            text: L('"Garantizamos que con nuestro servicio tu caso será aprobado. Tenemos un 99% de éxito."', '"We guarantee that with our service your case will be approved. We have a 99% success rate."'),
             isICS: false,
-            feedback: L('Promete resultados migratorios y exagera el alcance. Dos limites rotos.', 'Promises immigration outcomes and exaggerates scope. Two limits broken.')
+            feedback: L('Promete resultados migratorios y exagera el alcance. Dos límites rotos.', 'Promises immigration outcomes and exaggerates scope. Two limits broken.')
           },
           {
-            text: L('"La documentacion solida no gana un caso por si sola, pero le da al abogado las herramientas que necesita para presentar un argumento fuerte."', '"Strong documentation doesn\'t win a case by itself, but it gives the attorney the tools needed to present a strong argument."'),
+            text: L('"La documentación sólida no gana un caso por sí sola, pero le da al abogado las herramientas que necesita para presentar un argumento fuerte."', '"Strong documentation doesn\'t win a case by itself, but it gives the attorney the tools needed to present a strong argument."'),
             isICS: true,
-            feedback: L('Reconoce los limites de la documentacion sin minimizar su valor.', 'Acknowledges documentation\'s limits without minimizing its value.')
+            feedback: L('Reconoce los límites de la documentación sin minimizar su valor.', 'Acknowledges documentation\'s limits without minimizing its value.')
           }
         ]
       }
     },
 
     assessment: {
-      title: L('Evaluacion final', 'Final assessment'),
+      title: L('Evaluación final', 'Final assessment'),
       text: L('Necesitas 8 de 10 respuestas correctas para aprobar. Si no lo logras, puedes reintentar.', 'You need 8 out of 10 correct answers to pass. If you don\'t make it, you can retry.'),
       pass: L('Aprobado', 'Passed'),
       fail: L('No aprobado', 'Not passed'),
-      passMsg: L('Tienes claro que es ICS y como trabajamos.', 'You\'re clear on what ICS is and how we work.'),
+      passMsg: L('Tienes claro qué es ICS y cómo trabajamos.', 'You\'re clear on what ICS is and how we work.'),
       failMsg: L('Revisa las secciones donde fallaste y vuelve a intentarlo.', 'Review the sections where you failed and try again.')
     },
 
     certificate: {
       title: L('Onboarding completado', 'Onboarding complete'),
-      subtitle: L('Certificado de comprension', 'Certificate of understanding'),
+      subtitle: L('Certificado de comprensión', 'Certificate of understanding'),
       body: L(
-        'ha completado el onboarding de Immigration Case Support y ha demostrado comprension del alcance, los servicios, los limites y el metodo de trabajo de ICS.',
+        'ha completado el onboarding de Immigration Case Support y ha demostrado comprensión del alcance, los servicios, los límites y el método de trabajo de ICS.',
         'has successfully completed the Immigration Case Support onboarding and has demonstrated understanding of the scope, services, limits, and working method of ICS.'
       )
     },
@@ -376,18 +376,18 @@
     },
 
     ui: {
-      assessmentShort: L('Evaluacion', 'Assessment'),
+      assessmentShort: L('Evaluación', 'Assessment'),
       true: L('Verdadero', 'True'),
       false: L('Falso', 'False'),
       of: L('de', 'of'),
       fivePrinciples: L('Cinco principios', 'Five principles'),
-      caseFlow: L('Flujo tipico de un caso', 'Typical case flow'),
+      caseFlow: L('Flujo típico de un caso', 'Typical case flow'),
       roles: L('Roles', 'Roles'),
       soundsLikeICS: L('Suena a ICS', 'Sounds like ICS'),
       notSoundsLikeICS: L('No suena a ICS', 'Doesn\'t sound like ICS'),
       perfect: L('Perfecto.', 'Perfect.'),
-      correctInGreen: L('Los correctos estan en verde.', 'Correct ones are in green.'),
-      correctOrderGreen: L('El orden correcto esta senalado en verde.', 'The correct order is shown in green.')
+      correctInGreen: L('Los correctos están en verde.', 'Correct ones are in green.'),
+      correctOrderGreen: L('El orden correcto está señalado en verde.', 'The correct order is shown in green.')
     }
   };
 
@@ -395,31 +395,31 @@
      ASSESSMENT BANK
      ═══════════════════════════════════════ */
   var BANK = [
-    { s:1, q: L('Que entiende el ojo clinico de ICS?', 'What does ICS\'s clinical eye understand?'), o: [
-      { text: L('Como el trauma desordena la memoria', 'How trauma disrupts memory'), c: true },
-      { text: L('Como funciona el sistema legal', 'How the legal system works'), c: false },
-      { text: L('Como escribir formularios', 'How to fill out forms'), c: false }
+    { s:1, q: L('Qué entiende el ojo clínico de ICS?', 'What does ICS\'s clinical eye understand?'), o: [
+      { text: L('Cómo el trauma desordena la memoria', 'How trauma disrupts memory'), c: true },
+      { text: L('Cómo funciona el sistema legal', 'How the legal system works'), c: false },
+      { text: L('Cómo escribir formularios', 'How to fill out forms'), c: false }
     ]},
     { s:2, q: L('Una narrativa fragmentada por trauma indica que:', 'A trauma-fragmented narrative indicates that:'), o: [
       { text: L('La persona miente', 'The person is lying'), c: false },
-      { text: L('El trauma afecto como se recuerda', 'Trauma affected how things are remembered'), c: true },
+      { text: L('El trauma afectó cómo se recuerda', 'Trauma affected how things are remembered'), c: true },
       { text: L('La historia es inconsistente', 'The story is inconsistent'), c: false }
     ]},
-    { s:3, q: L('Cual de estos es un documento que produce ICS?', 'Which of these is a document ICS produces?'), o: [
+    { s:3, q: L('Cuál de estos es un documento que produce ICS?', 'Which of these is a document ICS produces?'), o: [
       { text: L('Formulario I-485', 'Form I-485'), c: false },
-      { text: L('Declaracion jurada (Affidavit)', 'Sworn Declaration (Affidavit)'), c: true },
+      { text: L('Declaración jurada (Affidavit)', 'Sworn Declaration (Affidavit)'), c: true },
       { text: L('Orden judicial', 'Court order'), c: false }
     ]},
-    { s:3, q: L('La Sesion de Narrativa es:', 'The Narrative Session is:'), o: [
+    { s:3, q: L('La Sesión de Narrativa es:', 'The Narrative Session is:'), o: [
       { text: L('Un servicio donde se trabaja la historia del cliente a profundidad', 'A service where the client\'s story is explored in depth'), c: true },
       { text: L('Un documento formal para el caso', 'A formal case document'), c: false },
-      { text: L('Una evaluacion legal', 'A legal evaluation'), c: false }
+      { text: L('Una evaluación legal', 'A legal evaluation'), c: false }
     ]},
-    { s:4, q: L('Un cliente pide que ICS le aconseje que visa solicitar. Que haces?', 'A client asks ICS to advise them on which visa to apply for. What do you do?'), o: [
-      { text: L('Le doy orientacion general', 'I give general guidance'), c: false },
-      { text: L('Le explico que ICS no da asesoria legal y lo refiero a un abogado', 'I explain ICS doesn\'t give legal advice and refer them to an attorney'), c: true }
+    { s:4, q: L('Un cliente pide que ICS le aconseje qué visa solicitar. Qué haces?', 'A client asks ICS to advise them on which visa to apply for. What do you do?'), o: [
+      { text: L('Le doy orientación general', 'I give general guidance'), c: false },
+      { text: L('Le explico que ICS no da asesoría legal y lo refiero a un abogado', 'I explain ICS doesn\'t give legal advice and refer them to an attorney'), c: true }
     ]},
-    { s:4, q: L('Por que es innegociable comunicar lo que ICS NO hace?', 'Why is it non-negotiable to communicate what ICS does NOT do?'), o: [
+    { s:4, q: L('Por qué es innegociable comunicar lo que ICS NO hace?', 'Why is it non-negotiable to communicate what ICS does NOT do?'), o: [
       { text: L('Protege al cliente y a ICS regulatoriamente', 'It protects the client and ICS from regulatory issues'), c: true },
       { text: L('Es una formalidad sin importancia practica', 'It\'s a formality with no practical importance'), c: false }
     ]},
@@ -429,21 +429,21 @@
       { text: L('Solo para casos de asilo', 'Only for asylum cases'), c: false }
     ]},
     { s:6, q: L('ICS se ubica:', 'ICS sits:'), o: [
-      { text: L('En el espacio clinico', 'In the clinical space'), c: false },
-      { text: L('Entre lo clinico y lo legal', 'Between clinical and legal'), c: true },
+      { text: L('En el espacio clínico', 'In the clinical space'), c: false },
+      { text: L('Entre lo clínico y lo legal', 'Between clinical and legal'), c: true },
       { text: L('En el espacio legal', 'In the legal space'), c: false }
     ]},
-    { s:7, q: L('Cual es el primer paso del flujo de trabajo?', 'What is the first step in the workflow?'), o: [
-      { text: L('Redaccion y estructura', 'Writing and structuring'), c: false },
+    { s:7, q: L('Cuál es el primer paso del flujo de trabajo?', 'What is the first step in the workflow?'), o: [
+      { text: L('Redacción y estructura', 'Writing and structuring'), c: false },
       { text: L('Primer contacto', 'First contact'), c: true },
-      { text: L('Sesion de Narrativa', 'Narrative Session'), c: false }
+      { text: L('Sesión de Narrativa', 'Narrative Session'), c: false }
     ]},
     { s:8, q: L('Si un abogado recibe el Workup pero no continua con ICS:', 'If an attorney receives the Workup but doesn\'t continue with ICS:'), o: [
       { text: L('Debe devolver los materiales', 'They must return the materials'), c: false },
       { text: L('Todo lo producido queda con el abogado', 'Everything produced stays with the attorney'), c: true },
       { text: L('Se le cobra el servicio', 'They are charged for the service'), c: false }
     ]},
-    { s:9, q: L('Cual es la secuencia del tono de ICS?', 'What is the sequence for ICS\'s tone?'), o: [
+    { s:9, q: L('Cuál es la secuencia del tono de ICS?', 'What is the sequence for ICS\'s tone?'), o: [
       { text: L('Vender, explicar, cerrar', 'Sell, explain, close'), c: false },
       { text: L('Educar, explicar, argumentar, presentar', 'Educate, explain, argue, present'), c: true },
       { text: L('Presentar, argumentar, educar', 'Present, argue, educate'), c: false }
@@ -1197,7 +1197,7 @@
     });
     var reset = $('#resetBtn');
     if (reset) reset.addEventListener('click', function () {
-      var msg = lang() === 'es' ? 'Empezar de nuevo? Se borrara tu progreso.' : 'Start over? Your progress will be erased.';
+      var msg = lang() === 'es' ? 'Empezar de nuevo? Se borrará tu progreso.' : 'Start over? Your progress will be erased.';
       if (window.confirm(msg)) { clearState(); location.reload(); }
     });
 
