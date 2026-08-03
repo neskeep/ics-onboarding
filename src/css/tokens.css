@@ -13,6 +13,17 @@
   --color-gray-200: #E8E4E0;
   --color-gray-600: #6B6560;
 
+  /* State colors */
+  --color-success: #2e7d32;
+  --color-success-light: #4caf50;
+  --color-success-bright: #81c784;
+  --color-success-rgb: 46, 125, 50;
+  --color-error: #c62828;
+  --color-error-light: #ef5350;
+  --color-error-bright: #ef9a9a;
+  --color-error-rgb: 198, 40, 40;
+  --color-primary-rgb: 0, 88, 104;
+
   /* Typography */
   --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-body: 'Outfit', system-ui, sans-serif;

@@ -23,6 +23,40 @@
     return text.split('\n\n').map(function (p) { return '<p class="ob-text">' + p + '</p>'; }).join('');
   }
 
+  var ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ESC_MAP[c]; });
+  }
+
+  function reducedMotion() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  // Screen-reader announcement via a persistent live region
+  function announce(msg) {
+    var live = $('#obLive');
+    if (!live) return;
+    live.textContent = '';
+    // Defer so consecutive updates are re-announced by assistive tech
+    setTimeout(function () { live.textContent = msg; }, 60);
+  }
+
+  function fbPrefix(ok) {
+    return ok ? (lang() === 'es' ? 'Correcto. ' : 'Correct. ')
+              : (lang() === 'es' ? 'Incorrecto. ' : 'Incorrect. ');
+  }
+
+  // Attach both click and keyboard (Enter/Space) activation to non-button elements
+  function onActivate(el, fn) {
+    el.addEventListener('click', fn);
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        fn.call(this, e);
+      }
+    });
+  }
+
   /* ═══════════════════════════════════════
      CONTENT
      ═══════════════════════════════════════ */
@@ -329,6 +363,21 @@
       retry: L('Reintentar', 'Retry'),
       certificate: L('Ver certificado', 'View certificate'),
       print: L('Imprimir', 'Print')
+    },
+
+    ui: {
+      assessmentShort: L('Evaluacion', 'Assessment'),
+      true: L('Verdadero', 'True'),
+      false: L('Falso', 'False'),
+      of: L('de', 'of'),
+      fivePrinciples: L('Cinco principios', 'Five principles'),
+      caseFlow: L('Flujo tipico de un caso', 'Typical case flow'),
+      roles: L('Roles', 'Roles'),
+      soundsLikeICS: L('Suena a ICS', 'Sounds like ICS'),
+      notSoundsLikeICS: L('No suena a ICS', 'Doesn\'t sound like ICS'),
+      perfect: L('Perfecto.', 'Perfect.'),
+      correctInGreen: L('Los correctos estan en verde.', 'Correct ones are in green.'),
+      correctOrderGreen: L('El orden correcto esta senalado en verde.', 'The correct order is shown in green.')
     }
   };
 
@@ -410,6 +459,28 @@
   };
 
   /* ═══════════════════════════════════════
+     PERSISTENCE
+     ═══════════════════════════════════════ */
+  var STORAGE_KEY = 'ics-onboarding-v1';
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ lang: lang(), S: S }));
+    } catch (e) { /* storage unavailable / full — fail silently */ }
+  }
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function clearState() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* noop */ }
+  }
+
+  /* ═══════════════════════════════════════
      PROGRESS & NAV
      ═══════════════════════════════════════ */
   function updateProgress() {
@@ -419,7 +490,7 @@
     if (S.step === 0 || S.step === 11) {
       counter.textContent = '';
     } else if (S.step === 10) {
-      counter.textContent = lang() === 'es' ? 'Evaluacion' : 'Assessment';
+      counter.textContent = t(C.ui.assessmentShort);
     } else {
       counter.textContent = S.step + ' / 9';
     }
@@ -446,6 +517,10 @@
       next.textContent = t(C.nav.next);
       next.disabled = !S.done[S.step];
     }
+
+    var reset = $('#resetBtn');
+    if (reset) reset.hidden = S.step === 0;
+    saveState();
   }
 
   function goTo(n) {
@@ -456,17 +531,30 @@
     if (target) {
       target.classList.add('ob-step--active');
       render(n);
+      focusStep(target, n);
     }
     updateProgress();
     updateNav();
+    saveState();
+  }
+
+  // Move keyboard/screen-reader focus to the new step's heading (welcome keeps input focus)
+  function focusStep(target, n) {
+    if (n === 0) return;
+    var h = target.querySelector('.ob-title');
+    if (h) {
+      h.setAttribute('tabindex', '-1');
+      h.focus();
+    }
   }
 
   /* ═══════════════════════════════════════
      RENDER DISPATCH
      ═══════════════════════════════════════ */
+  var RENDER_FNS = [rWelcome, r1, r2, r3, r4, r5, r6, r7, r8, r9, rAssessment, rCertificate];
+
   function render(n) {
-    var fns = [rWelcome, r1, r2, r3, r4, r5, r6, r7, r8, r9, rAssessment, rCertificate];
-    if (fns[n]) fns[n]();
+    if (RENDER_FNS[n]) RENDER_FNS[n]();
   }
 
   /* ── Step 0: Welcome ── */
@@ -478,7 +566,7 @@
         '<p class="ob-section-label">Onboarding</p>' +
         '<h1 class="ob-title">' + t(d.title) + '</h1>' +
         '<p class="ob-text ob-text--secondary">' + t(d.lead) + '</p>' +
-        '<input type="text" class="ob-welcome__input" id="nameInput" placeholder="' + t(d.placeholder) + '" value="' + (S.name || '') + '" autocomplete="name">' +
+        '<input type="text" class="ob-welcome__input" id="nameInput" placeholder="' + esc(t(d.placeholder)) + '" value="' + esc(S.name || '') + '" autocomplete="name">' +
       '</div>';
     var input = $('#nameInput');
     input.addEventListener('input', function () { S.name = this.value; updateNav(); });
@@ -513,7 +601,9 @@
         var i = parseInt(this.getAttribute('data-i'));
         S._s1Answer = i;
         S.done[1] = true;
+        var ok1 = d.quiz.options[i].correct;
         renderMCResult(el, d, i);
+        announce(fbPrefix(ok1) + t(ok1 ? d.quiz.correctFeedback : d.quiz.incorrectFeedback));
         updateNav();
       });
     });
@@ -547,7 +637,7 @@
       html += '<div style="margin-bottom:1.5rem"><p class="ob-quiz-prompt">' + t(q.text) + '</p>' +
         '<div class="ob-options" style="flex-direction:row;gap:0.5rem">';
       [true, false].forEach(function (val) {
-        var label = val ? (lang() === 'es' ? 'Verdadero' : 'True') : (lang() === 'es' ? 'Falso' : 'False');
+        var label = val ? t(C.ui.true) : t(C.ui.false);
         var cls = 'ob-option';
         if (answered) {
           if (val === q.answer) cls += ' ob-option--correct';
@@ -566,7 +656,10 @@
 
     $$('.ob-option:not(.ob-option--correct):not(.ob-option--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        S._s2[parseInt(this.getAttribute('data-qi'))] = this.getAttribute('data-v') === 'true';
+        var qi2 = parseInt(this.getAttribute('data-qi'));
+        var val2 = this.getAttribute('data-v') === 'true';
+        S._s2[qi2] = val2;
+        announce(fbPrefix(val2 === d.quiz[qi2].answer) + t(d.quiz[qi2].feedback));
         if (Object.keys(S._s2).length === d.quiz.length) { S.done[2] = true; updateNav(); }
         r2();
       });
@@ -591,11 +684,11 @@
       '<div class="ob-drag-pool" id="pool3">';
     remaining.forEach(function (i) {
       var sel = S._s3sel === i ? ' ob-drag-item--selected' : '';
-      html += '<div class="ob-drag-item' + sel + '" data-i="' + i + '" draggable="true">' + t(d.quiz.items[i].text) + '</div>';
+      html += '<div class="ob-drag-item' + sel + '" data-i="' + i + '" draggable="true" role="button" tabindex="0" aria-pressed="' + (S._s3sel === i) + '">' + t(d.quiz.items[i].text) + '</div>';
     });
     html += '</div><div class="ob-drop-zones">';
     ['doc', 'service'].forEach(function (cat) {
-      html += '<div class="ob-drop-zone" data-z="' + cat + '"><div class="ob-drop-zone__title">' + t(d.quiz.zones[cat]) + '</div><div class="ob-drop-zone__items">';
+      html += '<div class="ob-drop-zone" data-z="' + cat + '" role="button" tabindex="0" aria-label="' + esc(t(d.quiz.zones[cat])) + '"><div class="ob-drop-zone__title">' + t(d.quiz.zones[cat]) + '</div><div class="ob-drop-zone__items">';
       S._s3p[cat].forEach(function (i) {
         var item = d.quiz.items[i];
         var cls = checked ? (item.category === cat ? ' ob-drag-item--correct' : ' ob-drag-item--incorrect') : '';
@@ -612,7 +705,7 @@
       var ok = true;
       ['doc', 'service'].forEach(function (cat) { S._s3p[cat].forEach(function (i) { if (d.quiz.items[i].category !== cat) ok = false; }); });
       html += '<div class="ob-feedback ob-feedback--visible ob-feedback--' + (ok ? 'correct' : 'incorrect') + '">' +
-        (ok ? t(L('Perfecto.', 'Perfect.')) : t(L('Los correctos estan en verde.', 'Correct ones are in green.'))) + '</div>';
+        (ok ? t(C.ui.perfect) : t(C.ui.correctInGreen)) + '</div>';
     }
 
     el.innerHTML = html;
@@ -620,7 +713,7 @@
     if (!checked) {
       // Drag events
       $$('#pool3 .ob-drag-item', el).forEach(function (item) {
-        item.addEventListener('click', function () {
+        onActivate(item, function () {
           var idx = parseInt(this.getAttribute('data-i'));
           S._s3sel = S._s3sel === idx ? null : idx;
           r3();
@@ -640,8 +733,8 @@
           var idx = parseInt(e.dataTransfer.getData('text/plain'));
           if (!isNaN(idx)) { S._s3p[this.getAttribute('data-z')].push(idx); S._s3sel = null; r3(); }
         });
-        zone.addEventListener('click', function (e) {
-          if (S._s3sel != null && !e.target.closest('.ob-drag-item')) {
+        onActivate(zone, function (e) {
+          if (S._s3sel != null && !(e && e.target && e.target.closest && e.target.closest('.ob-drag-item'))) {
             S._s3p[this.getAttribute('data-z')].push(S._s3sel);
             S._s3sel = null; r3();
           }
@@ -649,7 +742,13 @@
       });
 
       var chk = $('#chk3');
-      if (chk) chk.addEventListener('click', function () { S.done[3] = true; r3(); updateNav(); });
+      if (chk) chk.addEventListener('click', function () {
+        S.done[3] = true;
+        var ok3 = true;
+        ['doc', 'service'].forEach(function (cat) { S._s3p[cat].forEach(function (i) { if (d.quiz.items[i].category !== cat) ok3 = false; }); });
+        announce(fbPrefix(ok3) + t(ok3 ? C.ui.perfect : C.ui.correctInGreen));
+        r3(); updateNav();
+      });
     }
   }
 
@@ -680,7 +779,10 @@
     el.innerHTML = html;
     $$('.ob-option:not(.ob-option--correct):not(.ob-option--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        S._s4[parseInt(this.getAttribute('data-si'))] = parseInt(this.getAttribute('data-oi'));
+        var si4 = parseInt(this.getAttribute('data-si'));
+        var oi4 = parseInt(this.getAttribute('data-oi'));
+        S._s4[si4] = oi4;
+        announce(fbPrefix(d.quiz[si4].options[oi4].correct) + t(d.quiz[si4].feedback));
         if (Object.keys(S._s4).length === d.quiz.length) { S.done[4] = true; updateNav(); }
         r4();
       });
@@ -712,7 +814,7 @@
     } else {
       var ok = d.quiz.options.every(function (o, i) { return o.correct === !!S._s5[i]; });
       html += '<div class="ob-feedback ob-feedback--visible ob-feedback--' + (ok ? 'correct' : 'incorrect') + '">' +
-        (ok ? t(L('Perfecto.', 'Perfect.')) : t(L('Los correctos estan en verde.', 'Correct ones are in green.'))) + '</div>';
+        (ok ? t(C.ui.perfect) : t(C.ui.correctInGreen)) + '</div>';
     }
 
     el.innerHTML = html;
@@ -722,7 +824,12 @@
         btn.addEventListener('click', function () { var i = parseInt(this.getAttribute('data-i')); S._s5[i] = !S._s5[i]; r5(); });
       });
       var chk = $('#chk5');
-      if (chk) chk.addEventListener('click', function () { S._s5checked = true; S.done[5] = true; r5(); updateNav(); });
+      if (chk) chk.addEventListener('click', function () {
+        S._s5checked = true; S.done[5] = true;
+        var ok5 = d.quiz.options.every(function (o, i) { return o.correct === !!S._s5[i]; });
+        announce(fbPrefix(ok5) + t(ok5 ? C.ui.perfect : C.ui.correctInGreen));
+        r5(); updateNav();
+      });
     }
   }
 
@@ -741,7 +848,7 @@
     d.quiz.zones.forEach(function (z) {
       var cls = 'ob-placement__zone ob-placement__zone--' + z.id;
       if (answered) { if (z.correct) cls += ' ob-placement__zone--correct'; else if (S._s6 === z.id) cls += ' ob-placement__zone--incorrect'; }
-      html += '<div class="' + cls + '" data-z="' + z.id + '">' +
+      html += '<div class="' + cls + '" data-z="' + z.id + '" role="button" tabindex="0" aria-label="' + esc(t(z.label) + ' — ' + t(z.sub)) + '">' +
         '<span class="ob-placement__label">' + t(z.label) + '</span>' +
         '<span class="ob-placement__sublabel">' + t(z.sub) + '</span></div>';
     });
@@ -757,7 +864,12 @@
 
     if (!answered) {
       $$('.ob-placement__zone', el).forEach(function (zone) {
-        zone.addEventListener('click', function () { S._s6 = this.getAttribute('data-z'); S.done[6] = true; r6(); updateNav(); });
+        onActivate(zone, function () {
+          S._s6 = this.getAttribute('data-z'); S.done[6] = true;
+          var ok6 = S._s6 === 'middle';
+          announce(fbPrefix(ok6) + t(ok6 ? d.quiz.correctFeedback : d.quiz.incorrectFeedback));
+          r6(); updateNav();
+        });
       });
     }
   }
@@ -767,11 +879,11 @@
     var d = C.s7;
     // Read panel
     var readHtml = '<p class="ob-section-label">' + t(d.label) + '</p><h2 class="ob-title">' + t(d.title) + '</h2>' +
-      '<h3 class="ob-subtitle">' + (lang() === 'es' ? 'Cinco principios' : 'Five principles') + '</h3>' +
+      '<h3 class="ob-subtitle">' + t(C.ui.fivePrinciples) + '</h3>' +
       '<ol class="ob-principles">' + d.readPrinciples.map(function (p) { return '<li>' + t(p) + '</li>'; }).join('') + '</ol>' +
-      '<h3 class="ob-subtitle">' + (lang() === 'es' ? 'Flujo tipico de un caso' : 'Typical case flow') + '</h3>' +
+      '<h3 class="ob-subtitle">' + t(C.ui.caseFlow) + '</h3>' +
       '<ol class="ob-list">' + d.readFlow.map(function (s) { return '<li>' + t(s) + '</li>'; }).join('') + '</ol>' +
-      '<h3 class="ob-subtitle">' + (lang() === 'es' ? 'Roles' : 'Roles') + '</h3>' +
+      '<h3 class="ob-subtitle">' + t(C.ui.roles) + '</h3>' +
       '<ul class="ob-list">' + d.readRoles.map(function (r) { return '<li>' + t(r) + '</li>'; }).join('') + '</ul>';
     $('#read-7').innerHTML = readHtml;
 
@@ -786,7 +898,7 @@
     S._s7.forEach(function (orig, pos) {
       var cls = 'ob-sequence__item';
       if (checked) cls += orig === pos ? ' ob-sequence__item--correct' : ' ob-sequence__item--incorrect';
-      html += '<div class="' + cls + '" data-orig="' + orig + '" draggable="true">' +
+      html += '<div class="' + cls + '" data-orig="' + orig + '" draggable="true" role="button" tabindex="0" aria-label="' + esc((pos + 1) + '. ' + t(d.readFlow[orig])) + '">' +
         '<span class="ob-sequence__num">' + (pos + 1) + '</span><span>' + t(d.readFlow[orig]) + '</span></div>';
     });
     html += '</div>';
@@ -796,7 +908,7 @@
     } else {
       var ok = S._s7.every(function (v, i) { return v === i; });
       html += '<div class="ob-feedback ob-feedback--visible ob-feedback--' + (ok ? 'correct' : 'incorrect') + '">' +
-        (ok ? t(L('Perfecto.', 'Perfect.')) : t(L('El orden correcto esta senalado en verde.', 'The correct order is shown in green.'))) + '</div>';
+        (ok ? t(C.ui.perfect) : t(C.ui.correctOrderGreen)) + '</div>';
     }
 
     el.innerHTML = html;
@@ -811,14 +923,19 @@
           e.preventDefault();
           if (dragIdx !== null && dragIdx !== i) { var tmp = S._s7[dragIdx]; S._s7[dragIdx] = S._s7[i]; S._s7[i] = tmp; r7(); }
         });
-        // Tap swap
-        item.addEventListener('click', function () {
+        // Tap / keyboard swap
+        onActivate(item, function () {
           if (S._s7tap == null) { S._s7tap = i; this.style.outline = '2px solid var(--color-primary)'; }
           else { if (S._s7tap !== i) { var tmp = S._s7[S._s7tap]; S._s7[S._s7tap] = S._s7[i]; S._s7[i] = tmp; } S._s7tap = null; r7(); }
         });
       });
       var chk = $('#chk7');
-      if (chk) chk.addEventListener('click', function () { S._s7checked = true; S.done[7] = true; r7(); updateNav(); });
+      if (chk) chk.addEventListener('click', function () {
+        S._s7checked = true; S.done[7] = true;
+        var ok7 = S._s7.every(function (v, i) { return v === i; });
+        announce(fbPrefix(ok7) + t(ok7 ? C.ui.perfect : C.ui.correctOrderGreen));
+        r7(); updateNav();
+      });
     }
   }
 
@@ -849,7 +966,10 @@
     el.innerHTML = html;
     $$('.ob-option:not(.ob-option--correct):not(.ob-option--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        S._s8[parseInt(this.getAttribute('data-qi'))] = parseInt(this.getAttribute('data-oi'));
+        var qi8 = parseInt(this.getAttribute('data-qi'));
+        var oi8 = parseInt(this.getAttribute('data-oi'));
+        S._s8[qi8] = oi8;
+        announce(fbPrefix(d.quiz[qi8].options[oi8].correct) + t(d.quiz[qi8].feedback));
         if (Object.keys(S._s8).length === d.quiz.length) { S.done[8] = true; updateNav(); }
         r8();
       });
@@ -863,8 +983,8 @@
 
     if (!S._s9) S._s9 = {};
     var el = $('#practice-9');
-    var yes = lang() === 'es' ? 'Suena a ICS' : 'Sounds like ICS';
-    var no = lang() === 'es' ? 'No suena a ICS' : 'Doesn\'t sound like ICS';
+    var yes = t(C.ui.soundsLikeICS);
+    var no = t(C.ui.notSoundsLikeICS);
 
     var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p>';
@@ -887,7 +1007,10 @@
     el.innerHTML = html;
     $$('.ob-tone-btn:not(.ob-tone-btn--correct):not(.ob-tone-btn--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        S._s9[parseInt(this.getAttribute('data-si'))] = this.getAttribute('data-v') === 'true';
+        var si9 = parseInt(this.getAttribute('data-si'));
+        var val9 = this.getAttribute('data-v') === 'true';
+        S._s9[si9] = val9;
+        announce(fbPrefix(val9 === d.quiz.samples[si9].isICS) + t(d.quiz.samples[si9].feedback));
         if (Object.keys(S._s9).length === d.quiz.samples.length) { S.done[9] = true; updateNav(); }
         r9();
       });
@@ -906,15 +1029,15 @@
       el.innerHTML = '<div style="text-align:center">' +
         '<h2 class="ob-title">' + t(d.title) + '</h2>' +
         '<div class="ob-score"><div class="ob-score__circle ob-score__circle--' + (pass ? 'pass' : 'fail') + '">' +
-        '<span class="ob-score__number">' + S.aScore + '</span><span class="ob-score__total">' + (lang() === 'es' ? 'de' : 'of') + ' 10</span></div></div>' +
-        '<p style="font-size:1.125rem;font-weight:600;color:' + (pass ? '#2e7d32' : '#c62828') + ';margin-bottom:0.5rem">' + t(pass ? d.pass : d.fail) + '</p>' +
+        '<span class="ob-score__number">' + S.aScore + '</span><span class="ob-score__total">' + t(C.ui.of) + ' 10</span></div></div>' +
+        '<p style="font-size:1.125rem;font-weight:600;color:' + (pass ? 'var(--color-success)' : 'var(--color-error)') + ';margin-bottom:0.5rem">' + t(pass ? d.pass : d.fail) + '</p>' +
         '<p class="ob-text ob-text--secondary">' + t(pass ? d.passMsg : d.failMsg) + '</p>' +
         (pass
           ? '<button class="ob-btn ob-btn--primary" id="toCert">' + t(C.nav.certificate) + '</button>'
           : '<button class="ob-btn ob-btn--accent" id="retryA">' + t(C.nav.retry) + '</button>') +
         '</div>';
       if (pass) $('#toCert').addEventListener('click', function () { goTo(11); });
-      else $('#retryA').addEventListener('click', function () { S.aQ = []; S.aA = {}; S.aScore = -1; rAssessment(); });
+      else $('#retryA').addEventListener('click', function () { S.aQ = []; S.aA = {}; S.aScore = -1; saveState(); rAssessment(); });
       return;
     }
 
@@ -933,13 +1056,15 @@
     el.innerHTML = html;
 
     $$('.ob-option', el).forEach(function (btn) {
-      btn.addEventListener('click', function () { S.aA[parseInt(this.getAttribute('data-qi'))] = parseInt(this.getAttribute('data-oi')); rAssessment(); });
+      btn.addEventListener('click', function () { S.aA[parseInt(this.getAttribute('data-qi'))] = parseInt(this.getAttribute('data-oi')); saveState(); rAssessment(); });
     });
     $('#submitA').addEventListener('click', function () {
       var score = 0;
       S.aQ.forEach(function (qi, i) { if (S.aA[i] !== undefined && BANK[qi].o[S.aA[i]].c) score++; });
       S.aScore = score;
       if (score >= 8) S.done[10] = true;
+      announce(t(score >= 8 ? d.pass : d.fail) + '. ' + score + ' ' + t(C.ui.of) + ' 10. ' + t(score >= 8 ? d.passMsg : d.failMsg));
+      saveState();
       rAssessment();
     });
   }
@@ -965,7 +1090,7 @@
       '<div class="ob-certificate">' +
         '<div class="ob-certificate__mark">ICS</div>' +
         '<p class="ob-certificate__title">' + t(d.subtitle) + '</p>' +
-        '<p class="ob-certificate__name">' + S.name + '</p>' +
+        '<p class="ob-certificate__name">' + esc(S.name) + '</p>' +
         '<p class="ob-certificate__body">' + t(d.body) + '</p>' +
         '<p class="ob-certificate__date">' + dateStr + '</p>' +
         '<button class="ob-btn ob-btn--accent" onclick="window.print()">' + t(C.nav.print) + '</button>' +
@@ -974,6 +1099,7 @@
   }
 
   function confetti() {
+    if (reducedMotion()) return;
     var old = $('.ob-confetti'); if (old) old.remove();
     var wrap = document.createElement('div'); wrap.className = 'ob-confetti';
     var colors = ['#005868', '#FFDA8E', '#F5EBE2', '#2e7d32'];
@@ -1004,7 +1130,14 @@
         render(S.step);
         updateProgress();
         updateNav();
+        saveState();
       });
+    });
+  }
+
+  function syncLangButtons() {
+    $$('.ob-lang-toggle__btn').forEach(function (b) {
+      b.classList.toggle('ob-lang-toggle__btn--active', b.getAttribute('data-lang-switch') === lang());
     });
   }
 
@@ -1012,13 +1145,32 @@
      INIT
      ═══════════════════════════════════════ */
   function init() {
+    S.total = RENDER_FNS.length - 1;
+
+    // Rehydrate saved progress + language
+    var saved = loadState();
+    if (saved) {
+      if (saved.lang === 'en' || saved.lang === 'es') document.documentElement.lang = saved.lang;
+      if (saved.S) {
+        Object.keys(saved.S).forEach(function (k) { S[k] = saved.S[k]; });
+        S.total = RENDER_FNS.length - 1;
+      }
+    }
+    syncLangButtons();
+
     initLang();
     $('#prevBtn').addEventListener('click', function () { goTo(S.step - 1); });
     $('#nextBtn').addEventListener('click', function () {
       if (S.step === 10) { var b = $('#submitA'); if (b) b.click(); return; }
       goTo(S.step + 1);
     });
-    goTo(0);
+    var reset = $('#resetBtn');
+    if (reset) reset.addEventListener('click', function () {
+      var msg = lang() === 'es' ? 'Empezar de nuevo? Se borrara tu progreso.' : 'Start over? Your progress will be erased.';
+      if (window.confirm(msg)) { clearState(); location.reload(); }
+    });
+
+    goTo(S.step || 0);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
