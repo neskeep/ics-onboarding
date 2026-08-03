@@ -489,10 +489,27 @@ html[lang="es"] [data-lang="en"] { display: none !important; }
   }
 }
 
-/* Small phones: give reading more vertical room and tighten type */
+/* Small phones: let the whole step scroll as one natural column
+   instead of two internally-scrolling panels (avoids a cramped reading area) */
 @media (max-width: 600px) {
+  .ob-step {
+    overflow-y: auto;
+  }
+
+  .ob-step__panels {
+    flex: none;
+    height: auto;
+    overflow: visible;
+  }
+
   .ob-panel-read {
-    max-height: 60dvh;
+    max-height: none;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .ob-panel-practice {
+    overflow: visible;
   }
 
   .ob-title {

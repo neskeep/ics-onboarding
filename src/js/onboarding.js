@@ -57,6 +57,16 @@
     });
   }
 
+  // Keyboard flows (steps 3 & 7) re-render innerHTML, which drops focus to <body>.
+  // Set _refocus before a re-render to restore focus to an equivalent element after it.
+  var _refocus = null;
+  function applyRefocus(root) {
+    if (!_refocus) return;
+    var target = typeof _refocus === 'function' ? _refocus(root) : root.querySelector(_refocus);
+    _refocus = null;
+    if (target && target.focus) target.focus();
+  }
+
   /* ═══════════════════════════════════════
      CONTENT
      ═══════════════════════════════════════ */
@@ -716,6 +726,8 @@
         onActivate(item, function () {
           var idx = parseInt(this.getAttribute('data-i'));
           S._s3sel = S._s3sel === idx ? null : idx;
+          _refocus = '#pool3 .ob-drag-item[data-i="' + idx + '"]';
+          saveState();
           r3();
         });
         item.addEventListener('dragstart', function (e) {
@@ -731,12 +743,15 @@
         zone.addEventListener('drop', function (e) {
           e.preventDefault(); this.classList.remove('ob-drop-zone--hover');
           var idx = parseInt(e.dataTransfer.getData('text/plain'));
-          if (!isNaN(idx)) { S._s3p[this.getAttribute('data-z')].push(idx); S._s3sel = null; r3(); }
+          if (!isNaN(idx)) { S._s3p[this.getAttribute('data-z')].push(idx); S._s3sel = null; saveState(); r3(); }
         });
         onActivate(zone, function (e) {
           if (S._s3sel != null && !(e && e.target && e.target.closest && e.target.closest('.ob-drag-item'))) {
             S._s3p[this.getAttribute('data-z')].push(S._s3sel);
-            S._s3sel = null; r3();
+            S._s3sel = null;
+            _refocus = function (root) { return root.querySelector('#pool3 .ob-drag-item') || root.querySelector('#chk3') || root.querySelector('.ob-drop-zone'); };
+            saveState();
+            r3();
           }
         });
       });
@@ -747,9 +762,14 @@
         var ok3 = true;
         ['doc', 'service'].forEach(function (cat) { S._s3p[cat].forEach(function (i) { if (d.quiz.items[i].category !== cat) ok3 = false; }); });
         announce(fbPrefix(ok3) + t(ok3 ? C.ui.perfect : C.ui.correctInGreen));
-        r3(); updateNav();
+        _refocus = function () { return document.getElementById('nextBtn'); };
+        saveState();
+        updateNav();
+        r3();
       });
     }
+
+    applyRefocus(el);
   }
 
   /* ── Step 4: Scenarios ── */
@@ -921,12 +941,18 @@
         item.addEventListener('dragover', function (e) { e.preventDefault(); });
         item.addEventListener('drop', function (e) {
           e.preventDefault();
-          if (dragIdx !== null && dragIdx !== i) { var tmp = S._s7[dragIdx]; S._s7[dragIdx] = S._s7[i]; S._s7[i] = tmp; r7(); }
+          if (dragIdx !== null && dragIdx !== i) { var tmp = S._s7[dragIdx]; S._s7[dragIdx] = S._s7[i]; S._s7[i] = tmp; saveState(); r7(); }
         });
         // Tap / keyboard swap
         onActivate(item, function () {
           if (S._s7tap == null) { S._s7tap = i; this.style.outline = '2px solid var(--color-primary)'; }
-          else { if (S._s7tap !== i) { var tmp = S._s7[S._s7tap]; S._s7[S._s7tap] = S._s7[i]; S._s7[i] = tmp; } S._s7tap = null; r7(); }
+          else {
+            if (S._s7tap !== i) { var tmp = S._s7[S._s7tap]; S._s7[S._s7tap] = S._s7[i]; S._s7[i] = tmp; }
+            S._s7tap = null;
+            _refocus = '#seq7 .ob-sequence__item:nth-child(' + (i + 1) + ')';
+            saveState();
+            r7();
+          }
         });
       });
       var chk = $('#chk7');
@@ -934,9 +960,14 @@
         S._s7checked = true; S.done[7] = true;
         var ok7 = S._s7.every(function (v, i) { return v === i; });
         announce(fbPrefix(ok7) + t(ok7 ? C.ui.perfect : C.ui.correctOrderGreen));
-        r7(); updateNav();
+        _refocus = function () { return document.getElementById('nextBtn'); };
+        saveState();
+        updateNav();
+        r7();
       });
     }
+
+    applyRefocus(el);
   }
 
   /* ── Step 8: Multiple choice ── */
