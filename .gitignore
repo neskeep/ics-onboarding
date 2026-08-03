@@ -1,0 +1,7 @@
+.vercel
+.DS_Store
+.playwright-mcp/
+
+# Root-level screenshots and reference images
+/*.png
+/*.jpeg

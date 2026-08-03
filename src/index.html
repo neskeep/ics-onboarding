@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding | Immigration Case Support</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/onboarding.css">
+</head>
+<body>
+
+  <div class="ob-progress-line" id="progressLine"></div>
+
+  <header class="ob-topbar">
+    <a href="https://ics-landing.vercel.app" class="ob-topbar__logo" aria-label="ICS Home">
+      <svg width="24" height="26" viewBox="0 0 1249 1370" aria-hidden="true"><defs><linearGradient id="logoGold" x1="0%" y1="0%" x2="80%" y2="100%"><stop offset="0%" stop-color="#D4A853"/><stop offset="45%" stop-color="#FFDA8E"/><stop offset="100%" stop-color="#C9993A"/></linearGradient></defs><g transform="matrix(1,0,0,1,-29.21,-74.86)"><g transform="matrix(4.1667,0,0,4.1667,0,0)"><g transform="matrix(1,0,0,1,218.61,255.01)"><path d="M0,-145.44C0.157,-145.949 0.731,-147.85 1.552,-150.572L3.375,-138.214C3.759,-135.609 3.954,-132.95 3.954,-130.313C3.954,-120.37 1.194,-110.67 -4.028,-102.261L-12.12,-89.23L-2.366,-77.392C4.833,-68.655 9.006,-58.1 9.702,-46.865L9.708,-46.77L9.715,-46.676C9.73,-46.455 9.739,-46.235 9.749,-46.014C9.79,-45.135 9.807,-44.325 9.807,-43.507C9.807,-43.208 9.805,-42.909 9.8,-42.611C6.521,-46.501 2.92,-50.151 -0.977,-53.517C-18.635,-68.766 -41.26,-77.165 -64.682,-77.165C-73.062,-77.165 -81.366,-76.08 -89.384,-73.983C-82.066,-84.484 -71.337,-92.033 -58.885,-95.374L-58.65,-95.436C-57.409,-95.705 -54.433,-96.305 -52.031,-96.776L-51.433,-96.893L-50.842,-97.045C-47.879,-97.803 -44.99,-98.742 -42.185,-99.854L-39.921,-100.794C-22.304,-108.476 -8.321,-122.975 -1.455,-141.181L-0.08,-144.827L-0.08,-145.19C-0.054,-145.269 -0.028,-145.353 -0.001,-145.44L0,-145.44ZM27.169,-237.043L-9.211,-227.712C-17.164,-225.673 -24.857,-222.689 -32.079,-218.844C-34.795,-217.401 -37.466,-215.825 -39.996,-214.171C-54.79,-204.538 -66.682,-191.526 -74.818,-176.163C-92.077,-170.538 -107.981,-161.158 -121.297,-148.683C-129.344,-141.156 -136.354,-132.582 -142.122,-123.21C-145.192,-118.231 -147.923,-112.996 -150.232,-107.66L-151.99,-103.598L-151.99,-103.376C-153.578,-99.291 -154.953,-95.098 -156.097,-90.857L-156.119,-90.798L-156.37,-89.83L-156.372,-89.825L-156.393,-89.74C-159.587,-77.428 -192.557,-37.66 -201.268,-29.454C-208.218,-23.737 -212.054,-15.031 -211.558,-6.018C-211.045,3.299 -205.988,11.792 -198.031,16.7C-196.138,17.868 -194.415,19.262 -192.891,20.861C-191.122,24.009 -188.968,26.915 -186.465,29.527C-186.045,30.008 -185.618,30.483 -185.179,30.954C-181.326,35.103 -176.904,38.692 -172.077,41.615C-167.265,55.284 -154.61,66.489 -143.623,74.068C-137.662,78.182 -116.893,91.603 -99.931,91.603C-89.2,91.603 -82.882,86.377 -80.07,83.262C-69.5,71.548 -54.349,64.658 -38.502,64.36C-38.143,64.353 -37.764,64.349 -37.386,64.349C-36.75,64.349 -36.114,64.36 -35.482,64.381L-35.129,64.392L-34.643,64.392L-34.491,64.391C-15.535,64.155 2.623,59.782 19.48,51.393C55.461,33.505 80.587,-0.691 86.685,-40.076C87.645,-46.293 88.13,-52.638 88.13,-58.941C88.13,-60.674 88.092,-62.453 88.018,-64.237L88.018,-64.276L87.994,-64.783C87.232,-80.945 83.359,-96.545 76.482,-111.15C67.782,-129.618 54.473,-145.794 37.957,-157.986L10.983,-181.907C11.75,-184.459 12.263,-186.162 12.356,-186.473L12.379,-186.546L12.4,-186.62L16.612,-200.999L27.169,-237.043ZM-3.901,-207.008L-8.113,-192.628C-8.113,-192.628 -19.662,-154.221 -20.431,-151.719C-20.431,-151.714 -21.132,-149.727 -21.454,-148.729L-21.454,-148.724C-27.18,-133.542 -40.122,-121.852 -56.142,-117.751C-56.142,-117.751 -64.444,-116.124 -64.424,-116.017C-83.244,-110.969 -99.156,-98.908 -109.138,-82.835C-114.962,-73.456 -118.764,-62.705 -119.947,-51.19L-119.947,-51.186C-120.142,-48.994 -120.429,-46.832 -120.794,-44.694C-122.43,-35.19 -130.367,-18.148 -130.362,-18.129C-127.334,-23.343 -123.687,-28.163 -119.528,-32.492C-117.396,-34.713 -115.127,-36.801 -112.736,-38.749C-99.663,-49.398 -82.927,-55.791 -64.682,-55.791C-26.615,-55.791 4.893,-27.955 10.268,8.312C23.23,-5.162 31.182,-23.416 31.182,-43.507C31.182,-44.66 31.157,-45.804 31.103,-46.944C31.084,-47.358 31.065,-47.772 31.036,-48.186C30.032,-64.375 23.858,-79.178 14.13,-90.985C21.234,-102.424 25.329,-115.896 25.329,-130.313C25.329,-134.057 25.051,-137.734 24.52,-141.333C24.554,-141.303 24.594,-141.28 24.627,-141.255C38.529,-131.156 49.777,-117.683 57.144,-102.044C62.66,-90.329 66.001,-77.405 66.643,-63.776L66.643,-63.772C66.716,-62.17 66.755,-60.558 66.755,-58.941C66.755,-53.64 66.346,-48.429 65.562,-43.346C60.426,-10.168 39.162,17.737 9.957,32.257C-3.526,38.967 -18.698,42.818 -34.756,43.018L-34.776,43.018C-35.643,42.989 -36.514,42.975 -37.386,42.975C-37.892,42.975 -38.399,42.98 -38.905,42.989C-61.561,43.416 -81.87,53.351 -95.939,68.941C-96.734,69.822 -98.114,70.229 -99.931,70.229C-113.718,70.229 -152.697,46.869 -152.697,30.285C-152.697,29.239 -152.658,28.201 -152.576,27.179C-159.144,25.07 -164.967,21.307 -169.539,16.384C-169.939,15.955 -170.323,15.522 -170.703,15.075L-170.708,15.069C-172.347,13.431 -173.71,11.539 -174.746,9.466L-175.134,8.691C-178.425,4.693 -182.372,1.245 -186.81,-1.492C-191.004,-4.079 -191.437,-10.024 -187.552,-13.056C-183.181,-16.467 -141.079,-63.65 -135.704,-84.373C-135.699,-84.393 -135.694,-84.412 -135.689,-84.427C-134.369,-89.5 -132.67,-94.428 -130.615,-99.166L-130.615,-99.171C-128.687,-103.626 -126.448,-107.906 -123.92,-112.006C-119.134,-119.781 -113.325,-126.872 -106.684,-133.084C-93.717,-145.233 -77.561,-154.07 -59.599,-158.233C-53.337,-173.893 -42.313,-187.156 -28.3,-196.281C-26.275,-197.606 -24.181,-198.837 -22.033,-199.977C-16.356,-203 -10.28,-205.372 -3.901,-207.008" fill="url(#logoGold)"/></g></g></g></svg>
+      <span class="ob-topbar__wordmark">
+        <span class="ob-topbar__wordmark-main">Immigration</span>
+        <span class="ob-topbar__wordmark-sub">Case Support</span>
+      </span>
+    </a>
+    <div class="ob-topbar__right">
+      <span class="ob-topbar__step" id="stepCounter"></span>
+      <div class="ob-lang-toggle">
+        <button class="ob-lang-toggle__btn" data-lang-switch="en" type="button" aria-label="English">EN</button>
+        <button class="ob-lang-toggle__btn ob-lang-toggle__btn--active" data-lang-switch="es" type="button" aria-label="Espanol">ES</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Steps 0-11 rendered by JS -->
+  <section class="ob-step ob-step--active" data-step="0"><div class="ob-step__single"><div class="ob-panel__inner" id="content-0"></div></div></section>
+  <section class="ob-step" data-step="1"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-1"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-1"></div></div></div></section>
+  <section class="ob-step" data-step="2"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-2"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-2"></div></div></div></section>
+  <section class="ob-step" data-step="3"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-3"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-3"></div></div></div></section>
+  <section class="ob-step" data-step="4"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-4"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-4"></div></div></div></section>
+  <section class="ob-step" data-step="5"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-5"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-5"></div></div></div></section>
+  <section class="ob-step" data-step="6"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-6"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-6"></div></div></div></section>
+  <section class="ob-step" data-step="7"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-7"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-7"></div></div></div></section>
+  <section class="ob-step" data-step="8"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-8"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-8"></div></div></div></section>
+  <section class="ob-step" data-step="9"><div class="ob-step__panels"><div class="ob-panel-read"><div class="ob-panel__inner" id="read-9"></div></div><div class="ob-panel-practice"><div class="ob-panel__inner" id="practice-9"></div></div></div></section>
+  <section class="ob-step" data-step="10"><div class="ob-step__single ob-step__single--dark"><div class="ob-panel__inner" id="content-10" style="max-width:680px"></div></div></section>
+  <section class="ob-step" data-step="11"><div class="ob-step__single"><div class="ob-panel__inner" id="content-11"></div></div></section>
+
+  <nav class="ob-nav">
+    <button class="ob-btn ob-btn--ghost" id="prevBtn"></button>
+    <button class="ob-btn ob-btn--primary" id="nextBtn"></button>
+  </nav>
+
+  <script src="js/onboarding.js"></script>
+</body>
+</html>
