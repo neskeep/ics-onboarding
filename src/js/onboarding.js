@@ -32,12 +32,10 @@
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  // Screen-reader announcement via a persistent live region
   function announce(msg) {
     var live = $('#obLive');
     if (!live) return;
     live.textContent = '';
-    // Defer so consecutive updates are re-announced by assistive tech
     setTimeout(function () { live.textContent = msg; }, 60);
   }
 
@@ -46,7 +44,6 @@
               : (lang() === 'es' ? 'Incorrecto. ' : 'Incorrect. ');
   }
 
-  // Attach both click and keyboard (Enter/Space) activation to non-button elements
   function onActivate(el, fn) {
     el.addEventListener('click', fn);
     el.addEventListener('keydown', function (e) {
@@ -57,14 +54,16 @@
     });
   }
 
-  // Keyboard flows (steps 3 & 7) re-render innerHTML, which drops focus to <body>.
-  // Set _refocus before a re-render to restore focus to an equivalent element after it.
   var _refocus = null;
   function applyRefocus(root) {
     if (!_refocus) return;
     var target = typeof _refocus === 'function' ? _refocus(root) : root.querySelector(_refocus);
     _refocus = null;
     if (target && target.focus) target.focus();
+  }
+
+  function scrollToEl(el) {
+    if (el) setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
   }
 
   /* ═══════════════════════════════════════
@@ -77,10 +76,15 @@
         'Esta experiencia te va a llevar por todo lo que necesitas entender sobre Immigration Case Support: qué hacemos, qué no hacemos, cómo trabajamos y por qué importa cada parte. Vas a leer, practicar y al final, demostrar que lo tienes claro.',
         'This experience will walk you through everything you need to understand about Immigration Case Support: what we do, what we don\'t do, how we work, and why each part matters. You\'ll read, practice, and at the end, demonstrate that it\'s clear.'
       ),
-      placeholder: L('Tu nombre', 'Your name')
+      placeholder: L('Tu nombre', 'Your name'),
+      blocks: [
+        { name: L('Qué es ICS', 'What ICS is'), desc: L('Lecturas 1–3', 'Readings 1–3') },
+        { name: L('Qué NO es', 'What it\'s NOT'), desc: L('Lecturas 4–6', 'Readings 4–6') },
+        { name: L('Cómo funciona', 'How it works'), desc: L('Lecturas 7–9', 'Readings 7–9') }
+      ],
+      format: L('9 lecturas con práctica · 1 evaluación final · ~20 min', '9 readings with practice · 1 final assessment · ~20 min')
     },
 
-    // STEP 1
     s1: {
       label: L('Lectura 1 de 9', 'Reading 1 of 9'),
       title: L('ICS en una frase', 'ICS in one sentence'),
@@ -105,12 +109,11 @@
       }
     },
 
-    // STEP 2
     s2: {
       label: L('Lectura 2 de 9', 'Reading 2 of 9'),
       title: L('El problema que resuelve', 'The problem ICS solves'),
       read: L(
-        'USCIS revisa hoy con más dureza que nunca. Una documentación mediocre ya no es solo débil, es motivo activo de rechazo. Un buen documento necesita una cronología sólida, los hechos relevantes bien identificados y evidencia que respalde cada uno.\n\nCuando el caso involucra trauma hay una capa extra. El trauma fragmenta el relato, desordena la memoria, esconde los hechos importantes. La persona no está mintiendo ni siendo inconsistente: su cerebro proceso la experiencia de una forma que hace difícil contarla en orden.\n\nPor eso hace falta un ojo clínico. Alguien que vea a traves de esa fragmentación, identifique lo relevante, y reconstruya la historia con la profundidad y estructura que el caso necesita. Eso es exactamente lo que aplica ICS.',
+        'USCIS revisa hoy con más dureza que nunca. Una documentación mediocre ya no es solo débil, es motivo activo de rechazo. Un buen documento necesita una cronología sólida, los hechos relevantes bien identificados y evidencia que respalde cada uno.\n\nCuando el caso involucra trauma hay una capa extra. El trauma fragmenta el relato, desordena la memoria, esconde los hechos importantes. La persona no está mintiendo ni siendo inconsistente: su cerebro proceso la experiencia de una forma que hace difícil contarla en orden.\n\nPor eso hace falta un ojo clínico. Alguien que vea a través de esa fragmentación, identifique lo relevante, y reconstruya la historia con la profundidad y estructura que el caso necesita. Eso es exactamente lo que aplica ICS.',
         'USCIS reviews more strictly today than ever. Mediocre documentation is no longer just weak — it\'s an active reason for denial. A strong document needs a solid chronology, well-identified relevant facts, and evidence backing each one.\n\nWhen trauma is involved there\'s an extra layer. Trauma fragments the narrative, disrupts memory, and hides important facts. The person isn\'t lying or being inconsistent: their brain processed the experience in a way that makes it hard to tell in order.\n\nThat\'s why a clinical eye is needed. Someone who can see through that fragmentation, identify what\'s relevant, and reconstruct the story with the depth and structure the case needs. That\'s exactly what ICS does.'
       ),
       practiceLabel: L('Verdadero o falso', 'True or false'),
@@ -123,7 +126,7 @@
         {
           text: L('El trauma hace que la persona recuerde los hechos con más claridad.', 'Trauma causes the person to remember facts more clearly.'),
           answer: false,
-          feedback: L('Al reves. El trauma fragmenta el relato y desordena la memoria.', 'The opposite. Trauma fragments the narrative and disrupts memory.')
+          feedback: L('Al revés. El trauma fragmenta el relato y desordena la memoria.', 'The opposite. Trauma fragments the narrative and disrupts memory.')
         },
         {
           text: L('Una narrativa fragmentada indica que la historia es inconsistente.', 'A fragmented narrative indicates the story is inconsistent.'),
@@ -133,7 +136,6 @@
       ]
     },
 
-    // STEP 3
     s3: {
       label: L('Lectura 3 de 9', 'Reading 3 of 9'),
       title: L('Qué hace ICS exactamente', 'What ICS does exactly'),
@@ -156,7 +158,6 @@
       }
     },
 
-    // STEP 4
     s4: {
       label: L('Lectura 4 de 9', 'Reading 4 of 9'),
       title: L('Qué NO hace ICS', 'What ICS does NOT do'),
@@ -176,7 +177,7 @@
           feedback: L('ICS nunca llena formularios oficiales de inmigración, sin excepciones.', 'ICS never fills out official immigration forms, no exceptions.')
         },
         {
-          situation: L('Un familiar del cliente pregunta: "Creen que le van a aprobar el caso?"', 'A client\'s family member asks: "Do you think their case will be approved?"'),
+          situation: L('Un familiar del cliente pregunta: "¿Creen que le van a aprobar el caso?"', 'A client\'s family member asks: "Do you think their case will be approved?"'),
           options: [
             { text: L('Le digo que sí para darle tranquilidad.', 'I say yes to reassure them.'), correct: false },
             { text: L('Le explico que ICS no puede prometer ni predecir resultados migratorios.', 'I explain that ICS cannot promise or predict immigration outcomes.'), correct: true },
@@ -203,7 +204,6 @@
       ]
     },
 
-    // STEP 5
     s5: {
       label: L('Lectura 5 de 9', 'Reading 5 of 9'),
       title: L('Qué hace diferente a ICS', 'What makes ICS different'),
@@ -222,12 +222,11 @@
           { text: L('La documentación refleja la profundidad de la experiencia vivida.', 'Documentation reflects the depth of the lived experience.'), correct: true },
           { text: L('ICS ofrece representación legal cuando el cliente no tiene abogado.', 'ICS offers legal representation when the client has no attorney.'), correct: false },
           { text: L('El enfoque trauma-informado está presente en cada documento, no es opcional.', 'The trauma-informed approach is present in every document, it\'s not optional.'), correct: true },
-          { text: L('ICS trabaja únicamente en ingles.', 'ICS works only in English.'), correct: false }
+          { text: L('ICS trabaja únicamente en inglés.', 'ICS works only in English.'), correct: false }
         ]
       }
     },
 
-    // STEP 6
     s6: {
       label: L('Lectura 6 de 9', 'Reading 6 of 9'),
       title: L('Dónde se ubica ICS', 'Where ICS sits'),
@@ -248,7 +247,6 @@
       }
     },
 
-    // STEP 7
     s7: {
       label: L('Lectura 7 de 9', 'Reading 7 of 9'),
       title: L('Cómo trabaja ICS por dentro', 'How ICS works internally'),
@@ -279,7 +277,6 @@
       }
     },
 
-    // STEP 8
     s8: {
       label: L('Lectura 8 de 9', 'Reading 8 of 9'),
       title: L('La oferta B2B: Clinical Narrative Workup', 'The B2B offer: Clinical Narrative Workup'),
@@ -290,7 +287,7 @@
       practiceLabel: L('Verifica tu comprensión', 'Verify your understanding'),
       quiz: [
         {
-          prompt: L('Qué incluye el Clinical Narrative Workup?', 'What does the Clinical Narrative Workup include?'),
+          prompt: L('¿Qué incluye el Clinical Narrative Workup?', 'What does the Clinical Narrative Workup include?'),
           options: [
             { text: L('Solo la sesión de narrativa.', 'Only the narrative session.'), correct: false },
             { text: L('Sesión completa, paquete clínico y llamada de revisión.', 'Full session, clinical package, and review call.'), correct: true },
@@ -299,18 +296,17 @@
           feedback: L('Incluye la sesión, el paquete clínico completo y una llamada de revisión.', 'It includes the session, the full clinical package, and a review call.')
         },
         {
-          prompt: L('Si el abogado decide no continuar con ICS, qué pasa con lo producido?', 'If the attorney decides not to continue with ICS, what happens to what was produced?'),
+          prompt: L('Si el abogado decide no continuar con ICS, ¿qué pasa con lo producido?', 'If the attorney decides not to continue with ICS, what happens to what was produced?'),
           options: [
             { text: L('Se elimina por confidencialidad.', 'It\'s deleted for confidentiality.'), correct: false },
             { text: L('Todo queda con el abogado.', 'Everything stays with the attorney.'), correct: true },
             { text: L('Se cobra retroactivamente.', 'It\'s charged retroactively.'), correct: false }
           ],
-          feedback: L('Todo lo producido queda con el abogado, continue o no.', 'Everything produced stays with the attorney, whether they continue or not.')
+          feedback: L('Todo lo producido queda con el abogado, continúe o no.', 'Everything produced stays with the attorney, whether they continue or not.')
         }
       ]
     },
 
-    // STEP 9
     s9: {
       label: L('Lectura 9 de 9', 'Reading 9 of 9'),
       title: L('Cómo suena ICS', 'How ICS sounds'),
@@ -372,7 +368,8 @@
       submit: L('Enviar', 'Submit'),
       retry: L('Reintentar', 'Retry'),
       certificate: L('Ver certificado', 'View certificate'),
-      print: L('Imprimir', 'Print')
+      print: L('Imprimir', 'Print'),
+      backToStart: L('Volver al inicio', 'Back to start')
     },
 
     ui: {
@@ -392,10 +389,53 @@
   };
 
   /* ═══════════════════════════════════════
+     CONTEXTUAL HELP (inline per step)
+     ═══════════════════════════════════════ */
+  var HELP = {
+    1: [
+      { q: L('¿ICS es una clínica de salud mental?', 'Is ICS a mental health clinic?'), a: L('No. ICS no es clínica ni despacho de abogados. Es el equipo que documenta casos de inmigración basados en trauma.', 'No. ICS is not a clinic or a law firm. It\'s the team that documents trauma-based immigration cases.') },
+      { q: L('¿Qué significa "ojo clínico"?', 'What does "clinical eye" mean?'), a: L('Que ICS entiende cómo el trauma afecta la memoria y usa esa comprensión para documentar con mayor profundidad y precisión.', 'That ICS understands how trauma affects memory and uses that understanding to document with greater depth and precision.') },
+      { q: L('¿ICS trabaja solo con casos de trauma?', 'Does ICS only work with trauma cases?'), a: L('Sí. La especialidad de ICS es documentar casos donde el trauma es un factor central en la narrativa del cliente.', 'Yes. ICS specializes in documenting cases where trauma is a central factor in the client\'s narrative.') }
+    ],
+    2: [
+      { q: L('¿Por qué importa tanto la calidad de la documentación?', 'Why does documentation quality matter so much?'), a: L('USCIS revisa con más dureza que nunca. Documentación mediocre es motivo activo de rechazo, no solo una debilidad.', 'USCIS reviews more strictly than ever. Mediocre documentation is an active reason for denial, not just a weakness.') },
+      { q: L('¿Fragmentación del relato significa que la persona miente?', 'Does narrative fragmentation mean the person is lying?'), a: L('No. El trauma cambia cómo se almacenan los recuerdos. La fragmentación es un efecto neurológico, no deshonestidad.', 'No. Trauma changes how memories are stored. Fragmentation is a neurological effect, not dishonesty.') }
+    ],
+    3: [
+      { q: L('¿Cuál es la diferencia entre affidavit y personal statement?', 'What\'s the difference between affidavit and personal statement?'), a: L('El affidavit es formal y cronológico. El personal statement es en la voz de la persona, menos formal pero igual de estructurado.', 'The affidavit is formal and chronological. The personal statement is in the person\'s voice, less formal but equally structured.') },
+      { q: L('¿Qué es la auto-preparación?', 'What is case self-preparation?'), a: L('Acompañamiento paso a paso para quien presenta su propio caso, con guía de alcance limitado de un abogado contratista independiente.', 'Step-by-step guidance for those filing their own case, with limited-scope guidance from an independent contractor attorney.') }
+    ],
+    4: [
+      { q: L('¿Puedo dar mi opinión personal sobre el caso de un cliente?', 'Can I give my personal opinion about a client\'s case?'), a: L('No. Opinar sobre estrategia legal, tipo de visa o probabilidad de aprobación es asesoría legal. ICS no la da.', 'No. Opinions on legal strategy, visa type, or approval probability constitute legal advice. ICS doesn\'t give that.') },
+      { q: L('¿Qué hago si un cliente insiste en que llene un formulario?', 'What if a client insists I fill out a form?'), a: L('Explicas con claridad que ICS no llena formularios oficiales de inmigración y lo refieres a su abogado.', 'You clearly explain that ICS doesn\'t fill out official immigration forms and refer them to their attorney.') }
+    ],
+    5: [
+      { q: L('¿Qué es exactamente "trauma-informado"?', 'What exactly is "trauma-informed"?'), a: L('No es un servicio extra. Es la manera en que se trabaja siempre: entender cómo el trauma afecta el relato antes de documentar.', 'It\'s not an extra service. It\'s how work is always done: understanding how trauma affects the narrative before documenting.') },
+      { q: L('¿Por qué se trabaja en el idioma del cliente?', 'Why is work done in the client\'s language?'), a: L('Los detalles importantes salen mejor cuando la persona cuenta su historia en su propio idioma, sin traducciones intermedias.', 'Important details come through better when the person tells their story in their own language, without intermediate translations.') }
+    ],
+    6: [
+      { q: L('¿ICS compite con abogados?', 'Does ICS compete with attorneys?'), a: L('No. ICS fortalece la base documental que el abogado necesita. No compite, complementa.', 'No. ICS strengthens the documentary foundation the attorney needs. It doesn\'t compete, it complements.') },
+      { q: L('¿ICS compite con clínicas?', 'Does ICS compete with clinics?'), a: L('No. ICS no hace evaluaciones clínicas ni diagnósticos. Ocupa el espacio entre lo clínico y lo legal.', 'No. ICS doesn\'t perform clinical evaluations or diagnoses. It occupies the space between clinical and legal.') }
+    ],
+    7: [
+      { q: L('¿Siempre se empieza con una sesión de narrativa?', 'Does it always start with a narrative session?'), a: L('Es el punto de partida de casi todo caso, pero depende del servicio solicitado.', 'It\'s the starting point for almost every case, but it depends on the service requested.') },
+      { q: L('¿El abogado del cliente trabaja para ICS?', 'Does the client\'s attorney work for ICS?'), a: L('No. El abogado del cliente siempre es externo a ICS, incluso en auto-preparación donde el abogado guía es un contratista independiente.', 'No. The client\'s attorney is always external to ICS, even in self-preparation where the guiding attorney is an independent contractor.') }
+    ],
+    8: [
+      { q: L('¿El Clinical Narrative Workup tiene costo?', 'Does the Clinical Narrative Workup have a cost?'), a: L('No. Es gratuito y sin condiciones. Es una muestra del proceso completo.', 'No. It\'s free with no conditions. It\'s a sample of the full process.') },
+      { q: L('¿Qué pasa si el abogado no continúa?', 'What happens if the attorney doesn\'t continue?'), a: L('Todo lo producido queda con el abogado. Sin cargos retroactivos ni condiciones.', 'Everything produced stays with the attorney. No retroactive charges or conditions.') }
+    ],
+    9: [
+      { q: L('¿Puedo usar urgencia en la comunicación?', 'Can I use urgency in communication?'), a: L('No. ICS no comunica desde el miedo ni usa tácticas de urgencia o alarma.', 'No. ICS doesn\'t communicate from fear or use urgency or alarm tactics.') },
+      { q: L('¿Puedo mencionar tasas de éxito?', 'Can I mention success rates?'), a: L('No. ICS no promete resultados migratorios de ningún tipo, ni directa ni indirectamente.', 'No. ICS doesn\'t promise immigration outcomes of any kind, neither directly nor indirectly.') }
+    ]
+  };
+
+  /* ═══════════════════════════════════════
      ASSESSMENT BANK
      ═══════════════════════════════════════ */
   var BANK = [
-    { s:1, q: L('Qué entiende el ojo clínico de ICS?', 'What does ICS\'s clinical eye understand?'), o: [
+    { s:1, q: L('¿Qué entiende el ojo clínico de ICS?', 'What does ICS\'s clinical eye understand?'), o: [
       { text: L('Cómo el trauma desordena la memoria', 'How trauma disrupts memory'), c: true },
       { text: L('Cómo funciona el sistema legal', 'How the legal system works'), c: false },
       { text: L('Cómo escribir formularios', 'How to fill out forms'), c: false }
@@ -405,7 +445,7 @@
       { text: L('El trauma afectó cómo se recuerda', 'Trauma affected how things are remembered'), c: true },
       { text: L('La historia es inconsistente', 'The story is inconsistent'), c: false }
     ]},
-    { s:3, q: L('Cuál de estos es un documento que produce ICS?', 'Which of these is a document ICS produces?'), o: [
+    { s:3, q: L('¿Cuál de estos es un documento que produce ICS?', 'Which of these is a document ICS produces?'), o: [
       { text: L('Formulario I-485', 'Form I-485'), c: false },
       { text: L('Declaración jurada (Affidavit)', 'Sworn Declaration (Affidavit)'), c: true },
       { text: L('Orden judicial', 'Court order'), c: false }
@@ -415,13 +455,13 @@
       { text: L('Un documento formal para el caso', 'A formal case document'), c: false },
       { text: L('Una evaluación legal', 'A legal evaluation'), c: false }
     ]},
-    { s:4, q: L('Un cliente pide que ICS le aconseje qué visa solicitar. Qué haces?', 'A client asks ICS to advise them on which visa to apply for. What do you do?'), o: [
+    { s:4, q: L('Un cliente pide que ICS le aconseje qué visa solicitar. ¿Qué haces?', 'A client asks ICS to advise them on which visa to apply for. What do you do?'), o: [
       { text: L('Le doy orientación general', 'I give general guidance'), c: false },
       { text: L('Le explico que ICS no da asesoría legal y lo refiero a un abogado', 'I explain ICS doesn\'t give legal advice and refer them to an attorney'), c: true }
     ]},
-    { s:4, q: L('Por qué es innegociable comunicar lo que ICS NO hace?', 'Why is it non-negotiable to communicate what ICS does NOT do?'), o: [
+    { s:4, q: L('¿Por qué es innegociable comunicar lo que ICS NO hace?', 'Why is it non-negotiable to communicate what ICS does NOT do?'), o: [
       { text: L('Protege al cliente y a ICS regulatoriamente', 'It protects the client and ICS from regulatory issues'), c: true },
-      { text: L('Es una formalidad sin importancia practica', 'It\'s a formality with no practical importance'), c: false }
+      { text: L('Es una formalidad sin importancia práctica', 'It\'s a formality with no practical importance'), c: false }
     ]},
     { s:5, q: L('El enfoque trauma-informado de ICS es:', 'ICS\'s trauma-informed approach is:'), o: [
       { text: L('Un servicio adicional con costo', 'An additional paid service'), c: false },
@@ -433,17 +473,17 @@
       { text: L('Entre lo clínico y lo legal', 'Between clinical and legal'), c: true },
       { text: L('En el espacio legal', 'In the legal space'), c: false }
     ]},
-    { s:7, q: L('Cuál es el primer paso del flujo de trabajo?', 'What is the first step in the workflow?'), o: [
+    { s:7, q: L('¿Cuál es el primer paso del flujo de trabajo?', 'What is the first step in the workflow?'), o: [
       { text: L('Redacción y estructura', 'Writing and structuring'), c: false },
       { text: L('Primer contacto', 'First contact'), c: true },
       { text: L('Sesión de Narrativa', 'Narrative Session'), c: false }
     ]},
-    { s:8, q: L('Si un abogado recibe el Workup pero no continua con ICS:', 'If an attorney receives the Workup but doesn\'t continue with ICS:'), o: [
+    { s:8, q: L('Si un abogado recibe el Workup pero no continúa con ICS:', 'If an attorney receives the Workup but doesn\'t continue with ICS:'), o: [
       { text: L('Debe devolver los materiales', 'They must return the materials'), c: false },
       { text: L('Todo lo producido queda con el abogado', 'Everything produced stays with the attorney'), c: true },
       { text: L('Se le cobra el servicio', 'They are charged for the service'), c: false }
     ]},
-    { s:9, q: L('Cuál es la secuencia del tono de ICS?', 'What is the sequence for ICS\'s tone?'), o: [
+    { s:9, q: L('¿Cuál es la secuencia del tono de ICS?', 'What is the sequence for ICS\'s tone?'), o: [
       { text: L('Vender, explicar, cerrar', 'Sell, explain, close'), c: false },
       { text: L('Educar, explicar, argumentar, presentar', 'Educate, explain, argue, present'), c: true },
       { text: L('Presentar, argumentar, educar', 'Present, argue, educate'), c: false }
@@ -455,6 +495,40 @@
   ];
 
   /* ═══════════════════════════════════════
+     MILESTONES
+     ═══════════════════════════════════════ */
+  var MILESTONES = {
+    3: {
+      icon: '1',
+      title: L('Bloque 1 completado', 'Block 1 complete'),
+      text: L('Ya sabes qué es ICS, qué problema resuelve y qué hace exactamente.', 'You now know what ICS is, what problem it solves, and what it does exactly.')
+    },
+    6: {
+      icon: '2',
+      title: L('Bloque 2 completado', 'Block 2 complete'),
+      text: L('Conoces los límites, el diferencial y la posición de ICS en el ecosistema.', 'You know ICS\'s limits, differentiators, and position in the ecosystem.')
+    },
+    9: {
+      icon: '3',
+      title: L('Bloque 3 completado', 'Block 3 complete'),
+      text: L('Entiendes cómo trabaja ICS por dentro, su oferta B2B y su tono de comunicación.', 'You understand how ICS works internally, its B2B offer, and its communication tone.')
+    }
+  };
+
+  /* Index block definitions */
+  var INDEX_BLOCKS = [
+    { title: L('Qué es ICS', 'What ICS is'), steps: [1, 2, 3] },
+    { title: L('Qué NO es ICS', 'What ICS is NOT'), steps: [4, 5, 6] },
+    { title: L('Cómo funciona', 'How it works'), steps: [7, 8, 9] }
+  ];
+
+  var STEP_TITLES = {
+    1: C.s1.title, 2: C.s2.title, 3: C.s3.title,
+    4: C.s4.title, 5: C.s5.title, 6: C.s6.title,
+    7: C.s7.title, 8: C.s8.title, 9: C.s9.title
+  };
+
+  /* ═══════════════════════════════════════
      STATE
      ═══════════════════════════════════════ */
   var S = {
@@ -462,21 +536,21 @@
     total: 11,
     name: '',
     done: {},
-    // per-step state stored as S._s1, S._s2, etc.
     aQ: [],
     aA: {},
-    aScore: -1
+    aScore: -1,
+    aCur: 0
   };
 
   /* ═══════════════════════════════════════
      PERSISTENCE
      ═══════════════════════════════════════ */
-  var STORAGE_KEY = 'ics-onboarding-v1';
+  var STORAGE_KEY = 'ics-onboarding-v2';
 
   function saveState() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ lang: lang(), S: S }));
-    } catch (e) { /* storage unavailable / full — fail silently */ }
+    } catch (e) { if (typeof console !== 'undefined') console.warn('ICS onboarding: could not save state', e); }
   }
 
   function loadState() {
@@ -507,48 +581,124 @@
   }
 
   function updateNav() {
-    var prev = $('#prevBtn');
-    var next = $('#nextBtn');
-
-    prev.style.visibility = S.step === 0 ? 'hidden' : 'visible';
-    prev.textContent = t(C.nav.prev);
-
-    if (S.step === 0) {
-      next.textContent = t(C.nav.start);
-      next.disabled = !S.name.trim();
-    } else if (S.step === 10) {
-      next.textContent = t(C.nav.submit);
-      next.disabled = false;
-    } else if (S.step === 11) {
-      next.style.display = 'none';
-      prev.style.display = 'none';
-    } else {
-      next.style.display = '';
-      next.textContent = t(C.nav.next);
-      next.disabled = !S.done[S.step];
-    }
-
     var reset = $('#resetBtn');
     if (reset) reset.hidden = S.step === 0;
+    var langToggle = $('#langToggle');
+    if (langToggle) langToggle.hidden = S.step !== 0;
     saveState();
   }
 
+  /* ═══════════════════════════════════════
+     DRAWER (INDEX & HELP)
+     ═══════════════════════════════════════ */
+  function openDrawer(id) {
+    var drawer = document.getElementById(id);
+    if (!drawer) return;
+    drawer.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer(id) {
+    var drawer = document.getElementById(id);
+    if (!drawer) return;
+    drawer.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function renderIndex() {
+    var nav = $('#drawerNav');
+    if (!nav) return;
+    var html = '';
+    INDEX_BLOCKS.forEach(function (block) {
+      html += '<div class="ob-index-block"><div class="ob-index-block__title">' + t(block.title) + '</div>';
+      block.steps.forEach(function (step) {
+        var done = S.done[step];
+        var current = S.step === step;
+        var cls = 'ob-index-item';
+        if (done) cls += ' ob-index-item--done';
+        if (current) cls += ' ob-index-item--current';
+        html += '<button class="' + cls + '" data-goto="' + step + '">' +
+          '<span class="ob-index-item__check"></span>' +
+          '<span>' + step + '. ' + t(STEP_TITLES[step]) + '</span></button>';
+      });
+      html += '</div>';
+    });
+
+    // Assessment + Certificate
+    html += '<div class="ob-index-block"><div class="ob-index-block__title">' + t(C.ui.assessmentShort) + '</div>';
+    var aCls = 'ob-index-item' + (S.done[10] ? ' ob-index-item--done' : '') + (S.step === 10 ? ' ob-index-item--current' : '');
+    html += '<button class="' + aCls + '" data-goto="10"><span class="ob-index-item__check"></span><span>' + t(C.assessment.title) + '</span></button>';
+    html += '</div>';
+
+    nav.innerHTML = html;
+
+    $$('[data-goto]', nav).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = parseInt(this.getAttribute('data-goto'));
+        closeDrawer('indexDrawer');
+        goTo(target);
+      });
+    });
+  }
+
+  /* ═══════════════════════════════════════
+     MILESTONES
+     ═══════════════════════════════════════ */
+  function showMilestone(data, cb) {
+    var overlay = $('#milestoneOverlay');
+    var card = $('#milestoneCard');
+    card.innerHTML = '<div class="ob-milestone__icon">' + data.icon + '</div>' +
+      '<h2 class="ob-milestone__title">' + t(data.title) + '</h2>' +
+      '<p class="ob-milestone__text">' + t(data.text) + '</p>' +
+      '<button class="ob-btn ob-btn--primary">' + t(C.nav.next) + '</button>';
+    overlay.hidden = false;
+
+    var btn = $('button', card);
+    var done = false;
+    function finish() {
+      if (done) return;
+      done = true;
+      overlay.hidden = true;
+      cb();
+    }
+    btn.addEventListener('click', finish);
+    btn.focus();
+    setTimeout(finish, 5000);
+  }
+
+  /* ═══════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════ */
   function goTo(n) {
     if (n < 0 || n > S.total) return;
+
+    // Milestone check: when advancing past block boundary
+    if (n > S.step && MILESTONES[S.step] && S.done[S.step]) {
+      showMilestone(MILESTONES[S.step], function () { _doGoTo(n); });
+      return;
+    }
+    _doGoTo(n);
+  }
+
+  function _doGoTo(n) {
     $$('.ob-step').forEach(function (el) { el.classList.remove('ob-step--active'); });
     S.step = n;
     var target = $('[data-step="' + n + '"]');
     if (target) {
       target.classList.add('ob-step--active');
+      target.classList.remove('ob-fade-in');
+      void target.offsetWidth;
+      target.classList.add('ob-fade-in');
+      target.scrollTop = 0;
       render(n);
       focusStep(target, n);
     }
     updateProgress();
     updateNav();
+
     saveState();
   }
 
-  // Move keyboard/screen-reader focus to the new step's heading (welcome keeps input focus)
   function focusStep(target, n) {
     if (n === 0) return;
     var h = target.querySelector('.ob-title');
@@ -556,6 +706,56 @@
       h.setAttribute('tabindex', '-1');
       h.focus();
     }
+  }
+
+  /* ═══════════════════════════════════════
+     INLINE CONTEXTUAL HELP
+     ═══════════════════════════════════════ */
+  var helpLabel = L('Preguntas sobre esta sección', 'Questions about this section');
+
+  function inlineHelpHtml(step) {
+    var faq = HELP[step];
+    if (!faq || faq.length === 0) return '';
+    var html = '<details class="ob-inline-help">' +
+      '<summary class="ob-inline-help__toggle">' +
+      '<svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M7 7C7 5.9 7.9 5 9 5C10.1 5 11 5.9 11 7C11 7.8 10.5 8.5 9.8 8.8C9.3 9 9 9.4 9 9.9V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="13" r="0.75" fill="currentColor"/></svg>' +
+      '<span>' + t(helpLabel) + '</span></summary>' +
+      '<div class="ob-inline-help__body">';
+    faq.forEach(function (item) {
+      html += '<div class="ob-inline-help__item">' +
+        '<p class="ob-inline-help__q">' + t(item.q) + '</p>' +
+        '<p class="ob-inline-help__a">' + t(item.a) + '</p></div>';
+    });
+    html += '</div></details>';
+    return html;
+  }
+
+  /* ═══════════════════════════════════════
+     INLINE NEXT BUTTON
+     ═══════════════════════════════════════ */
+  function nextBtnHtml(step) {
+    var nextLabel = step === 9 ? t(C.ui.assessmentShort) : t(C.nav.next);
+    var prevLabel = t(C.nav.prev);
+    var html = '<div class="ob-inline-nav">';
+    if (step > 0) {
+      html += '<button class="ob-btn ob-btn--ghost" data-go-prev="' + (step - 1) + '">&larr; ' + prevLabel + '</button>';
+    } else {
+      html += '<span></span>';
+    }
+    html += '<button class="ob-btn ob-btn--primary" data-go-next="' + (step + 1) + '">' + nextLabel + ' &rarr;</button>';
+    html += '</div>';
+    return html;
+  }
+
+  function bindNext(el) {
+    var btn = el.querySelector('[data-go-next]');
+    if (btn) btn.addEventListener('click', function () {
+      goTo(parseInt(this.getAttribute('data-go-next')));
+    });
+    var prev = el.querySelector('[data-go-prev]');
+    if (prev) prev.addEventListener('click', function () {
+      goTo(parseInt(this.getAttribute('data-go-prev')));
+    });
   }
 
   /* ═══════════════════════════════════════
@@ -573,74 +773,83 @@
     var d = C.welcome;
     el.innerHTML =
       '<div class="ob-welcome">' +
-        '<p class="ob-section-label">Onboarding</p>' +
         '<h1 class="ob-title">' + t(d.title) + '</h1>' +
         '<p class="ob-text ob-text--secondary">' + t(d.lead) + '</p>' +
+        '<p class="ob-welcome__format">' + t(d.format) + '</p>' +
         '<input type="text" class="ob-welcome__input" id="nameInput" placeholder="' + esc(t(d.placeholder)) + '" value="' + esc(S.name || '') + '" autocomplete="name">' +
+        '<div class="ob-inline-start"><button class="ob-btn ob-btn--primary" id="startBtn" ' + (S.name && S.name.trim() ? '' : 'disabled') + '>' + t(C.nav.start) + '</button></div>' +
       '</div>';
     var input = $('#nameInput');
-    input.addEventListener('input', function () { S.name = this.value; updateNav(); });
+    var startBtn = $('#startBtn');
+    input.addEventListener('input', function () {
+      S.name = this.value;
+      startBtn.disabled = !S.name.trim();
+      saveState();
+    });
+    startBtn.addEventListener('click', function () {
+      if (S.name.trim()) { S.done[0] = true; goTo(1); }
+    });
     input.focus();
   }
 
-  /* ── Generic read panel ── */
-  function writeRead(n, label, title, bodyHtml) {
-    var el = $('#read-' + n);
-    el.innerHTML = '<p class="ob-section-label">' + t(label) + '</p>' +
-      '<h2 class="ob-title">' + t(title) + '</h2>' + bodyHtml;
-  }
-
-  /* ── Step 1 ── */
+  /* ── Step 1: MC ── */
   function r1() {
     var d = C.s1;
-    writeRead(1, d.label, d.title, nl2p(t(d.read)));
-
-    var el = $('#practice-1');
-    if (S.done[1]) {
-      renderMCResult(el, d, S._s1Answer);
-      return;
-    }
-    el.innerHTML = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
+    var el = $('#content-1');
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p>' +
-      '<div class="ob-options">' + d.quiz.options.map(function (o, i) {
-        return '<button class="ob-option" data-i="' + i + '"><span class="ob-option__indicator"></span><span>' + t(o.text) + '</span></button>';
-      }).join('') + '</div><div class="ob-feedback" id="fb1"></div>';
+      '<div class="ob-options">';
 
-    $$('.ob-option', el).forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var i = parseInt(this.getAttribute('data-i'));
-        S._s1Answer = i;
-        S.done[1] = true;
-        var ok1 = d.quiz.options[i].correct;
-        renderMCResult(el, d, i);
-        announce(fbPrefix(ok1) + t(ok1 ? d.quiz.correctFeedback : d.quiz.incorrectFeedback));
-        updateNav();
-      });
-    });
-  }
-
-  function renderMCResult(el, d, answer) {
-    var correct = d.quiz.options[answer].correct;
-    el.innerHTML = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
-      '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p>' +
-      '<div class="ob-options">' + d.quiz.options.map(function (o, i) {
-        var cls = 'ob-option';
+    d.quiz.options.forEach(function (o, i) {
+      var cls = 'ob-option';
+      if (S.done[1]) {
         if (o.correct) cls += ' ob-option--correct';
-        else if (i === answer) cls += ' ob-option--incorrect';
-        return '<button class="' + cls + '"><span class="ob-option__indicator"></span><span>' + t(o.text) + '</span></button>';
-      }).join('') + '</div>' +
-      '<div class="ob-feedback ob-feedback--visible ob-feedback--' + (correct ? 'correct' : 'incorrect') + '">' +
-      t(correct ? d.quiz.correctFeedback : d.quiz.incorrectFeedback) + '</div>';
+        else if (S._s1Answer === i) cls += ' ob-option--incorrect';
+      }
+      html += '<button class="' + cls + '" data-i="' + i + '"><span class="ob-option__indicator"></span><span>' + t(o.text) + '</span></button>';
+    });
+    html += '</div>';
+
+    if (S.done[1]) {
+      var ok = d.quiz.options[S._s1Answer].correct;
+      html += '<div class="ob-feedback ob-feedback--visible ob-feedback--' + (ok ? 'correct' : 'incorrect') + '">' +
+        t(ok ? d.quiz.correctFeedback : d.quiz.incorrectFeedback) + '</div>';
+    }
+    html += '</div>'; // close practice card
+
+    if (S.done[1]) { html += inlineHelpHtml(1); html += nextBtnHtml(1); }
+    el.innerHTML = html;
+
+    if (!S.done[1]) {
+      $$('.ob-option', el).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var i = parseInt(this.getAttribute('data-i'));
+          S._s1Answer = i;
+          S.done[1] = true;
+          var ok1 = d.quiz.options[i].correct;
+          announce(fbPrefix(ok1) + t(ok1 ? d.quiz.correctFeedback : d.quiz.incorrectFeedback));
+          r1();
+          scrollToEl(el.querySelector('.ob-feedback'));
+        });
+      });
+    }
+    bindNext(el);
   }
 
   /* ── Step 2: True/False ── */
   function r2() {
     var d = C.s2;
-    writeRead(2, d.label, d.title, nl2p(t(d.read)));
-
     if (!S._s2) S._s2 = {};
-    var el = $('#practice-2');
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>';
+    var el = $('#content-2');
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>';
 
     d.quiz.forEach(function (q, qi) {
       var answered = S._s2[qi] !== undefined;
@@ -662,6 +871,8 @@
       html += '</div>';
     });
 
+    html += '</div>'; // close practice card
+    if (S.done[2]) { html += inlineHelpHtml(2); html += nextBtnHtml(2); }
     el.innerHTML = html;
 
     $$('.ob-option:not(.ob-option--correct):not(.ob-option--incorrect)', el).forEach(function (btn) {
@@ -670,28 +881,32 @@
         var val2 = this.getAttribute('data-v') === 'true';
         S._s2[qi2] = val2;
         announce(fbPrefix(val2 === d.quiz[qi2].answer) + t(d.quiz[qi2].feedback));
-        if (Object.keys(S._s2).length === d.quiz.length) { S.done[2] = true; updateNav(); }
+        if (Object.keys(S._s2).length === d.quiz.length) { S.done[2] = true; }
         r2();
       });
     });
+    bindNext(el);
   }
 
   /* ── Step 3: Drag & drop ── */
   function r3() {
     var d = C.s3;
-    writeRead(3, d.label, d.title, nl2p(t(d.read)));
-
     if (!S._s3p) S._s3p = { doc: [], service: [] };
     if (!S._s3pool) S._s3pool = shuffle(d.quiz.items.map(function (_, i) { return i; }));
 
-    var el = $('#practice-3');
+    var el = $('#content-3');
     var placed = S._s3p.doc.concat(S._s3p.service);
     var remaining = S._s3pool.filter(function (i) { return placed.indexOf(i) === -1; });
     var checked = S.done[3];
 
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p>' +
       '<div class="ob-drag-pool" id="pool3">';
+
     remaining.forEach(function (i) {
       var sel = S._s3sel === i ? ' ob-drag-item--selected' : '';
       html += '<div class="ob-drag-item' + sel + '" data-i="' + i + '" draggable="true" role="button" tabindex="0" aria-pressed="' + (S._s3sel === i) + '">' + t(d.quiz.items[i].text) + '</div>';
@@ -702,7 +917,7 @@
       S._s3p[cat].forEach(function (i) {
         var item = d.quiz.items[i];
         var cls = checked ? (item.category === cat ? ' ob-drag-item--correct' : ' ob-drag-item--incorrect') : '';
-        html += '<div class="ob-drag-item' + cls + '">' + t(item.text) + '</div>';
+        html += '<div class="ob-placed-item' + cls + '">' + t(item.text) + '</div>';
       });
       html += '</div></div>';
     });
@@ -718,15 +933,20 @@
         (ok ? t(C.ui.perfect) : t(C.ui.correctInGreen)) + '</div>';
     }
 
+    html += '</div>'; // close practice card
+    if (S.done[3]) { html += inlineHelpHtml(3); html += nextBtnHtml(3); }
     el.innerHTML = html;
 
     if (!checked) {
-      // Drag events
       $$('#pool3 .ob-drag-item', el).forEach(function (item) {
         onActivate(item, function () {
           var idx = parseInt(this.getAttribute('data-i'));
           S._s3sel = S._s3sel === idx ? null : idx;
-          _refocus = '#pool3 .ob-drag-item[data-i="' + idx + '"]';
+          _refocus = function (root) {
+            return root.querySelector('#pool3 .ob-drag-item[data-i="' + idx + '"]') ||
+                   root.querySelector('#pool3 .ob-drag-item') ||
+                   root.querySelector('.ob-drop-zone');
+          };
           saveState();
           r3();
         });
@@ -756,30 +976,31 @@
         });
       });
 
-      var chk = $('#chk3');
+      var chk = $('#chk3', el);
       if (chk) chk.addEventListener('click', function () {
         S.done[3] = true;
         var ok3 = true;
         ['doc', 'service'].forEach(function (cat) { S._s3p[cat].forEach(function (i) { if (d.quiz.items[i].category !== cat) ok3 = false; }); });
         announce(fbPrefix(ok3) + t(ok3 ? C.ui.perfect : C.ui.correctInGreen));
-        _refocus = function () { return document.getElementById('nextBtn'); };
         saveState();
-        updateNav();
         r3();
       });
     }
 
+    bindNext(el);
     applyRefocus(el);
   }
 
   /* ── Step 4: Scenarios ── */
   function r4() {
     var d = C.s4;
-    writeRead(4, d.label, d.title, nl2p(t(d.read)));
-
     if (!S._s4) S._s4 = {};
-    var el = $('#practice-4');
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>';
+    var el = $('#content-4');
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>';
 
     d.quiz.forEach(function (sc, si) {
       var answered = S._s4[si] !== undefined;
@@ -796,29 +1017,35 @@
       html += '</div>';
     });
 
+    html += '</div>'; // close practice card
+    if (S.done[4]) { html += inlineHelpHtml(4); html += nextBtnHtml(4); }
     el.innerHTML = html;
+
     $$('.ob-option:not(.ob-option--correct):not(.ob-option--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
         var si4 = parseInt(this.getAttribute('data-si'));
         var oi4 = parseInt(this.getAttribute('data-oi'));
         S._s4[si4] = oi4;
         announce(fbPrefix(d.quiz[si4].options[oi4].correct) + t(d.quiz[si4].feedback));
-        if (Object.keys(S._s4).length === d.quiz.length) { S.done[4] = true; updateNav(); }
+        if (Object.keys(S._s4).length === d.quiz.length) { S.done[4] = true; }
         r4();
       });
     });
+    bindNext(el);
   }
 
   /* ── Step 5: Select all ── */
   function r5() {
     var d = C.s5;
-    writeRead(5, d.label, d.title, nl2p(t(d.read)));
-
     if (!S._s5) S._s5 = {};
-    var el = $('#practice-5');
+    var el = $('#content-5');
     var checked = S._s5checked;
 
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p><div class="ob-options">';
 
     d.quiz.options.forEach(function (o, i) {
@@ -837,31 +1064,36 @@
         (ok ? t(C.ui.perfect) : t(C.ui.correctInGreen)) + '</div>';
     }
 
+    html += '</div>'; // close practice card
+    if (S.done[5]) { html += inlineHelpHtml(5); html += nextBtnHtml(5); }
     el.innerHTML = html;
 
     if (!checked) {
       $$('.ob-option', el).forEach(function (btn) {
         btn.addEventListener('click', function () { var i = parseInt(this.getAttribute('data-i')); S._s5[i] = !S._s5[i]; r5(); });
       });
-      var chk = $('#chk5');
+      var chk = $('#chk5', el);
       if (chk) chk.addEventListener('click', function () {
         S._s5checked = true; S.done[5] = true;
         var ok5 = d.quiz.options.every(function (o, i) { return o.correct === !!S._s5[i]; });
         announce(fbPrefix(ok5) + t(ok5 ? C.ui.perfect : C.ui.correctInGreen));
-        r5(); updateNav();
+        r5();
       });
     }
+    bindNext(el);
   }
 
   /* ── Step 6: Placement ── */
   function r6() {
     var d = C.s6;
-    writeRead(6, d.label, d.title, nl2p(t(d.read)));
-
-    var el = $('#practice-6');
+    var el = $('#content-6');
     var answered = S._s6 !== undefined;
 
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p>' +
       '<div class="ob-placement">';
 
@@ -880,6 +1112,8 @@
         t(ok ? d.quiz.correctFeedback : d.quiz.incorrectFeedback) + '</div>';
     }
 
+    html += '</div>'; // close practice card
+    if (S.done[6]) { html += inlineHelpHtml(6); html += nextBtnHtml(6); }
     el.innerHTML = html;
 
     if (!answered) {
@@ -888,31 +1122,31 @@
           S._s6 = this.getAttribute('data-z'); S.done[6] = true;
           var ok6 = S._s6 === 'middle';
           announce(fbPrefix(ok6) + t(ok6 ? d.quiz.correctFeedback : d.quiz.incorrectFeedback));
-          r6(); updateNav();
+          r6();
+          scrollToEl(el.querySelector('.ob-feedback'));
         });
       });
     }
+    bindNext(el);
   }
 
   /* ── Step 7: Sequence ── */
   function r7() {
     var d = C.s7;
-    // Read panel
-    var readHtml = '<p class="ob-section-label">' + t(d.label) + '</p><h2 class="ob-title">' + t(d.title) + '</h2>' +
+    if (!S._s7) S._s7 = shuffle([0,1,2,3,4,5]);
+    var checked = S._s7checked;
+    var el = $('#content-7');
+
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
       '<h3 class="ob-subtitle">' + t(C.ui.fivePrinciples) + '</h3>' +
       '<ol class="ob-principles">' + d.readPrinciples.map(function (p) { return '<li>' + t(p) + '</li>'; }).join('') + '</ol>' +
       '<h3 class="ob-subtitle">' + t(C.ui.caseFlow) + '</h3>' +
       '<ol class="ob-list">' + d.readFlow.map(function (s) { return '<li>' + t(s) + '</li>'; }).join('') + '</ol>' +
       '<h3 class="ob-subtitle">' + t(C.ui.roles) + '</h3>' +
-      '<ul class="ob-list">' + d.readRoles.map(function (r) { return '<li>' + t(r) + '</li>'; }).join('') + '</ul>';
-    $('#read-7').innerHTML = readHtml;
-
-    // Practice
-    if (!S._s7) S._s7 = shuffle([0,1,2,3,4,5]);
-    var checked = S._s7checked;
-    var el = $('#practice-7');
-
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
+      '<ul class="ob-list">' + d.readRoles.map(function (r) { return '<li>' + t(r) + '</li>'; }).join('') + '</ul>' +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p><div class="ob-sequence" id="seq7">';
 
     S._s7.forEach(function (orig, pos) {
@@ -931,6 +1165,8 @@
         (ok ? t(C.ui.perfect) : t(C.ui.correctOrderGreen)) + '</div>';
     }
 
+    html += '</div>'; // close practice card
+    if (S.done[7]) { html += inlineHelpHtml(7); html += nextBtnHtml(7); }
     el.innerHTML = html;
 
     if (!checked) {
@@ -943,9 +1179,8 @@
           e.preventDefault();
           if (dragIdx !== null && dragIdx !== i) { var tmp = S._s7[dragIdx]; S._s7[dragIdx] = S._s7[i]; S._s7[i] = tmp; saveState(); r7(); }
         });
-        // Tap / keyboard swap
         onActivate(item, function () {
-          if (S._s7tap == null) { S._s7tap = i; this.style.outline = '2px solid var(--color-primary)'; }
+          if (S._s7tap == null) { S._s7tap = i; this.classList.add('ob-sequence__item--tapped'); }
           else {
             if (S._s7tap !== i) { var tmp = S._s7[S._s7tap]; S._s7[S._s7tap] = S._s7[i]; S._s7[i] = tmp; }
             S._s7tap = null;
@@ -955,29 +1190,30 @@
           }
         });
       });
-      var chk = $('#chk7');
+      var chk = $('#chk7', el);
       if (chk) chk.addEventListener('click', function () {
         S._s7checked = true; S.done[7] = true;
         var ok7 = S._s7.every(function (v, i) { return v === i; });
         announce(fbPrefix(ok7) + t(ok7 ? C.ui.perfect : C.ui.correctOrderGreen));
-        _refocus = function () { return document.getElementById('nextBtn'); };
         saveState();
-        updateNav();
         r7();
       });
     }
 
+    bindNext(el);
     applyRefocus(el);
   }
 
   /* ── Step 8: Multiple choice ── */
   function r8() {
     var d = C.s8;
-    writeRead(8, d.label, d.title, nl2p(t(d.read)));
-
     if (!S._s8) S._s8 = {};
-    var el = $('#practice-8');
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>';
+    var el = $('#content-8');
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>';
 
     d.quiz.forEach(function (q, qi) {
       var answered = S._s8[qi] !== undefined;
@@ -994,30 +1230,36 @@
       html += '</div>';
     });
 
+    html += '</div>'; // close practice card
+    if (S.done[8]) { html += inlineHelpHtml(8); html += nextBtnHtml(8); }
     el.innerHTML = html;
+
     $$('.ob-option:not(.ob-option--correct):not(.ob-option--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
         var qi8 = parseInt(this.getAttribute('data-qi'));
         var oi8 = parseInt(this.getAttribute('data-oi'));
         S._s8[qi8] = oi8;
         announce(fbPrefix(d.quiz[qi8].options[oi8].correct) + t(d.quiz[qi8].feedback));
-        if (Object.keys(S._s8).length === d.quiz.length) { S.done[8] = true; updateNav(); }
+        if (Object.keys(S._s8).length === d.quiz.length) { S.done[8] = true; }
         r8();
       });
     });
+    bindNext(el);
   }
 
   /* ── Step 9: Tone ── */
   function r9() {
     var d = C.s9;
-    writeRead(9, d.label, d.title, nl2p(t(d.read)));
-
     if (!S._s9) S._s9 = {};
-    var el = $('#practice-9');
+    var el = $('#content-9');
     var yes = t(C.ui.soundsLikeICS);
     var no = t(C.ui.notSoundsLikeICS);
 
-    var html = '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
+    var html = '<p class="ob-section-label">' + t(d.label) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      nl2p(t(d.read)) +
+      '<div class="ob-practice-card">' +
+      '<p class="ob-practice-label">' + t(d.practiceLabel) + '</p>' +
       '<p class="ob-quiz-prompt">' + t(d.quiz.prompt) + '</p>';
 
     d.quiz.samples.forEach(function (s, si) {
@@ -1026,7 +1268,8 @@
       [true, false].forEach(function (val) {
         var cls = 'ob-tone-btn';
         if (answered) { if (val === s.isICS) cls += ' ob-tone-btn--correct'; else if (S._s9[si] === val) cls += ' ob-tone-btn--incorrect'; }
-        html += '<button class="' + cls + '" data-si="' + si + '" data-v="' + val + '">' + (val ? yes : no) + '</button>';
+        var ariaL = (val ? yes : no) + ' — ' + t(s.text).slice(0, 40);
+        html += '<button class="' + cls + '" data-si="' + si + '" data-v="' + val + '" aria-label="' + esc(ariaL) + '">' + (val ? yes : no) + '</button>';
       });
       html += '</div>';
       if (answered) {
@@ -1035,69 +1278,129 @@
       html += '</div>';
     });
 
+    html += '</div>'; // close practice card
+    if (S.done[9]) { html += inlineHelpHtml(9); html += nextBtnHtml(9); }
     el.innerHTML = html;
+
     $$('.ob-tone-btn:not(.ob-tone-btn--correct):not(.ob-tone-btn--incorrect)', el).forEach(function (btn) {
       btn.addEventListener('click', function () {
         var si9 = parseInt(this.getAttribute('data-si'));
         var val9 = this.getAttribute('data-v') === 'true';
         S._s9[si9] = val9;
         announce(fbPrefix(val9 === d.quiz.samples[si9].isICS) + t(d.quiz.samples[si9].feedback));
-        if (Object.keys(S._s9).length === d.quiz.samples.length) { S.done[9] = true; updateNav(); }
+        if (Object.keys(S._s9).length === d.quiz.samples.length) { S.done[9] = true; }
         r9();
       });
     });
+    bindNext(el);
   }
 
-  /* ── Step 10: Assessment ── */
+  /* ── Step 10: Assessment (wizard) ── */
   function rAssessment() {
     var el = $('#content-10');
     var d = C.assessment;
 
     if (S.aQ.length === 0) genAssessment();
 
+    // Results screen
     if (S.aScore >= 0) {
       var pass = S.aScore >= 8;
-      el.innerHTML = '<div style="text-align:center">' +
-        '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      var resultsHtml = '<div class="ob-results ob-fade-in">' +
+        '<div class="ob-results__header">' +
         '<div class="ob-score"><div class="ob-score__circle ob-score__circle--' + (pass ? 'pass' : 'fail') + '">' +
         '<span class="ob-score__number">' + S.aScore + '</span><span class="ob-score__total">' + t(C.ui.of) + ' 10</span></div></div>' +
-        '<p style="font-size:1.125rem;font-weight:600;color:' + (pass ? 'var(--color-success)' : 'var(--color-error)') + ';margin-bottom:0.5rem">' + t(pass ? d.pass : d.fail) + '</p>' +
-        '<p class="ob-text ob-text--secondary">' + t(pass ? d.passMsg : d.failMsg) + '</p>' +
-        (pass
-          ? '<button class="ob-btn ob-btn--primary" id="toCert">' + t(C.nav.certificate) + '</button>'
-          : '<button class="ob-btn ob-btn--accent" id="retryA">' + t(C.nav.retry) + '</button>') +
+        '<h2 class="ob-results__verdict ob-results__verdict--' + (pass ? 'pass' : 'fail') + '">' + t(pass ? d.pass : d.fail) + '</h2>' +
+        '<p class="ob-text ob-text--secondary">' + (pass ? esc(S.name) + ', ' : '') + t(pass ? d.passMsg : d.failMsg) + '</p>' +
         '</div>';
+
+      if (pass) {
+        resultsHtml += '<div class="ob-results__recap">';
+        INDEX_BLOCKS.forEach(function (block, i) {
+          resultsHtml += '<div class="ob-results__block">' +
+            '<span class="ob-results__block-check">&#10003;</span>' +
+            '<span>' + t(block.title) + '</span></div>';
+        });
+        resultsHtml += '</div>';
+      }
+
+      resultsHtml += '<div class="ob-results__action">' +
+        (pass
+          ? '<button class="ob-btn ob-btn--primary" id="toCert">' + t(C.nav.certificate) + ' &rarr;</button>'
+          : '<button class="ob-btn ob-btn--accent" id="retryA">' + t(C.nav.retry) + '</button>') +
+        '</div></div>';
+
+      el.innerHTML = resultsHtml;
       if (pass) $('#toCert').addEventListener('click', function () { goTo(11); });
       else $('#retryA').addEventListener('click', function () { S.aQ = []; S.aA = {}; S.aScore = -1; saveState(); rAssessment(); });
+      var rTitle = el.querySelector('.ob-results__verdict');
+      if (rTitle) { rTitle.setAttribute('tabindex', '-1'); rTitle.focus(); }
       return;
     }
 
-    var html = '<h2 class="ob-title">' + t(d.title) + '</h2><p class="ob-text ob-text--secondary">' + t(d.text) + '</p>';
+    // All questions in single scroll
+    var total = S.aQ.length;
+    var answeredCount = 0;
+    Object.keys(S.aA).forEach(function () { answeredCount++; });
+
+    var html = '<p class="ob-section-label">' + t(C.ui.assessmentShort) + '</p>' +
+      '<h2 class="ob-title">' + t(d.title) + '</h2>' +
+      '<p class="ob-text ob-text--secondary" style="margin-bottom:var(--space-lg)">' + t(d.text) + '</p>';
+
     S.aQ.forEach(function (qi, i) {
       var q = BANK[qi];
-      html += '<div class="ob-assessment-q"><p class="ob-assessment-q__num">' + (i + 1) + '</p>' +
-        '<p class="ob-quiz-prompt">' + t(q.q) + '</p><div class="ob-options">';
+      html += '<div class="ob-practice-card ob-assessment-q" data-qi="' + i + '">' +
+        '<p class="ob-practice-label">' + (i + 1) + ' ' + t(C.ui.of) + ' ' + total + '</p>' +
+        '<p class="ob-quiz-prompt">' + t(q.q) + '</p>' +
+        '<div class="ob-options">';
       q.o.forEach(function (o, oi) {
-        var cls = 'ob-option'; if (S.aA[i] === oi) cls += ' ob-option--selected';
+        var cls = 'ob-option';
+        if (S.aA[i] === oi) cls += ' ob-option--selected';
         html += '<button class="' + cls + '" data-qi="' + i + '" data-oi="' + oi + '"><span class="ob-option__indicator"></span><span>' + t(o.text) + '</span></button>';
       });
       html += '</div></div>';
     });
-    html += '<button class="ob-btn ob-btn--primary" id="submitA" style="margin-top:1rem">' + t(C.nav.submit) + '</button>';
+
+    html += '<div class="ob-inline-nav">' +
+      '<button class="ob-btn ob-btn--ghost" data-go-prev="9">&larr; ' + t(C.nav.prev) + '</button>' +
+      '<button class="ob-btn ob-btn--primary" id="wizSubmit"' + (answeredCount < total ? ' disabled' : '') + '>' + t(C.nav.submit) + '</button>' +
+      '</div>';
+
     el.innerHTML = html;
 
     $$('.ob-option', el).forEach(function (btn) {
-      btn.addEventListener('click', function () { S.aA[parseInt(this.getAttribute('data-qi'))] = parseInt(this.getAttribute('data-oi')); saveState(); rAssessment(); });
+      btn.addEventListener('click', function () {
+        var qi2 = parseInt(this.getAttribute('data-qi'));
+        S.aA[qi2] = parseInt(this.getAttribute('data-oi'));
+        saveState();
+        // Update selection visually without full re-render
+        var card = this.closest('.ob-assessment-q');
+        $$('.ob-option', card).forEach(function (b) { b.classList.remove('ob-option--selected'); });
+        this.classList.add('ob-option--selected');
+        // Enable submit if all answered
+        var allAnswered = Object.keys(S.aA).length >= total;
+        var submit = $('#wizSubmit');
+        if (submit) submit.disabled = !allAnswered;
+      });
     });
-    $('#submitA').addEventListener('click', function () {
+
+    var prevBtn = el.querySelector('[data-go-prev]');
+    if (prevBtn) prevBtn.addEventListener('click', function () {
+      goTo(parseInt(this.getAttribute('data-go-prev')));
+    });
+
+    var wizSubmit = $('#wizSubmit');
+    if (wizSubmit) wizSubmit.addEventListener('click', function () {
       var score = 0;
-      S.aQ.forEach(function (qi, i) { if (S.aA[i] !== undefined && BANK[qi].o[S.aA[i]].c) score++; });
+      S.aQ.forEach(function (qi2, i) { if (S.aA[i] !== undefined && BANK[qi2].o[S.aA[i]].c) score++; });
       S.aScore = score;
       if (score >= 8) S.done[10] = true;
       announce(t(score >= 8 ? d.pass : d.fail) + '. ' + score + ' ' + t(C.ui.of) + ' 10. ' + t(score >= 8 ? d.passMsg : d.failMsg));
       saveState();
       rAssessment();
     });
+
+    var title = el.querySelector('.ob-title');
+    if (title) { title.setAttribute('tabindex', '-1'); title.focus(); }
   }
 
   function genAssessment() {
@@ -1124,16 +1427,21 @@
         '<p class="ob-certificate__name">' + esc(S.name) + '</p>' +
         '<p class="ob-certificate__body">' + t(d.body) + '</p>' +
         '<p class="ob-certificate__date">' + dateStr + '</p>' +
-        '<button class="ob-btn ob-btn--accent" onclick="window.print()">' + t(C.nav.print) + '</button>' +
+        '<div class="ob-certificate__actions">' +
+          '<button class="ob-btn ob-btn--accent" onclick="window.print()">' + t(C.nav.print) + '</button>' +
+          '<button class="ob-btn ob-btn--ghost" id="backToStart">' + t(C.nav.backToStart) + '</button>' +
+        '</div>' +
       '</div>';
     confetti();
+    var back = $('#backToStart');
+    if (back) back.addEventListener('click', function () { goTo(0); });
   }
 
   function confetti() {
     if (reducedMotion()) return;
     var old = $('.ob-confetti'); if (old) old.remove();
     var wrap = document.createElement('div'); wrap.className = 'ob-confetti';
-    var colors = ['#005868', '#FFDA8E', '#F5EBE2', '#2e7d32'];
+    var colors = ['#005868', '#FFDA8E', '#F5EBE2', '#1b7a5a'];
     for (var i = 0; i < 50; i++) {
       var p = document.createElement('div'); p.className = 'ob-confetti__piece';
       p.style.left = Math.random() * 100 + '%';
@@ -1161,6 +1469,7 @@
         render(S.step);
         updateProgress();
         updateNav();
+    
         saveState();
       });
     });
@@ -1188,17 +1497,34 @@
       }
     }
     syncLangButtons();
-
     initLang();
-    $('#prevBtn').addEventListener('click', function () { goTo(S.step - 1); });
-    $('#nextBtn').addEventListener('click', function () {
-      if (S.step === 10) { var b = $('#submitA'); if (b) b.click(); return; }
-      goTo(S.step + 1);
-    });
+
+    // Reset
     var reset = $('#resetBtn');
     if (reset) reset.addEventListener('click', function () {
       var msg = lang() === 'es' ? 'Empezar de nuevo? Se borrará tu progreso.' : 'Start over? Your progress will be erased.';
       if (window.confirm(msg)) { clearState(); location.reload(); }
+    });
+
+    // Index drawer
+    var indexBtn = $('#indexBtn');
+    if (indexBtn) indexBtn.addEventListener('click', function () {
+      renderIndex();
+      openDrawer('indexDrawer');
+    });
+    var indexDrawer = $('#indexDrawer');
+    if (indexDrawer) {
+      var overlay = indexDrawer.querySelector('.ob-drawer__overlay');
+      var closeBtn = indexDrawer.querySelector('.ob-drawer__close');
+      if (overlay) overlay.addEventListener('click', function () { closeDrawer('indexDrawer'); });
+      if (closeBtn) closeBtn.addEventListener('click', function () { closeDrawer('indexDrawer'); });
+    }
+
+    // Escape key closes drawers
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeDrawer('indexDrawer');
+      }
     });
 
     goTo(S.step || 0);
